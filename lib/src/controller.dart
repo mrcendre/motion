@@ -7,7 +7,9 @@ class MotionController {
   /// will be rotate back to its initial position. From 0 to 1.
   double damping;
 
-  double get dampingFactor => 1 - (_minDampingFactor + (damping * (_maxDampingFactor - _minDampingFactor)));
+  double get dampingFactor =>
+      1 -
+      (_minDampingFactor + (damping * (_maxDampingFactor - _minDampingFactor)));
 
   /// The maximum angle at which the widget will be allowed to turn in every axis, in radians.
   double maxAngle;

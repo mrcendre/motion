@@ -39,10 +39,9 @@ class _MyHomePageState extends State<MyHomePage> {
               padding: const EdgeInsets.only(bottom: 50),
               child: Text(
                 'Motion example',
-                style: Theme.of(context)
-                    .textTheme
-                    .headline4
-                    ?.copyWith(fontWeight: FontWeight.bold, color: const Color.fromARGB(255, 0, 0, 0)),
+                style: Theme.of(context).textTheme.headline4?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: const Color.fromARGB(255, 0, 0, 0)),
               )),
           _buildCard(width: 280, height: 170),
           Padding(
@@ -75,20 +74,26 @@ class _MyHomePageState extends State<MyHomePage> {
           height: height.toDouble(),
           clipBehavior: Clip.hardEdge,
           padding: const EdgeInsets.all(20),
-          decoration: BoxDecoration(borderRadius: cardBorderRadius, color: const Color.fromARGB(255, 45, 45, 45)),
+          decoration: BoxDecoration(
+              borderRadius: cardBorderRadius,
+              color: const Color.fromARGB(255, 45, 45, 45)),
           child: _buildShortDummyParagraph());
 
-  Widget _buildShortDummyParagraph() =>
-      Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-        _buildDummyLine(1),
-        const SizedBox(height: 5),
-        _buildDummyLine(0.98),
-        const SizedBox(height: 5),
-        _buildDummyLine(0.95),
-        const SizedBox(height: 5),
-        _buildDummyLine(0.6),
-      ]);
+  Widget _buildShortDummyParagraph() => Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            _buildDummyLine(1),
+            const SizedBox(height: 5),
+            _buildDummyLine(0.98),
+            const SizedBox(height: 5),
+            _buildDummyLine(0.95),
+            const SizedBox(height: 5),
+            _buildDummyLine(0.6),
+          ]);
 
   Widget _buildDummyLine(double widthFactor) => FractionallySizedBox(
-      widthFactor: widthFactor, child: Container(height: 20, color: const Color.fromARGB(100, 255, 255, 255)));
+      widthFactor: widthFactor,
+      child: Container(
+          height: 20, color: const Color.fromARGB(100, 255, 255, 255)));
 }

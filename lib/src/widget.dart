@@ -58,33 +58,47 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
       0,
       min(
         _maxGlareOpacity,
-        _minGlareOpacity + (controller.x / controller.maxAngle) * (_maxGlareOpacity - _minGlareOpacity),
+        _minGlareOpacity +
+            (controller.x / controller.maxAngle) *
+                (_maxGlareOpacity - _minGlareOpacity),
       ));
 
   /// The rotation of the glare effect's gradient.
-  double get glareRotation => controller.y / (controller.maxAngle * 2) * (2 * pi);
+  double get glareRotation =>
+      controller.y / (controller.maxAngle * 2) * (2 * pi);
 
   /// The base top shadow offset.
   double get topShadowOffset =>
-      _minShadowTopOffset + (widget.elevation / _maxElevation) * (_maxShadowTopOffset - _minShadowTopOffset);
+      _minShadowTopOffset +
+      (widget.elevation / _maxElevation) *
+          (_maxShadowTopOffset - _minShadowTopOffset);
 
   /// The shadow's offset on the horizontal axis.
   double get horizontalShadowOffset =>
-      _minShadowOffset + (controller.y / controller.maxAngle) * (_maxShadowOffset - _minShadowOffset);
+      _minShadowOffset +
+      (controller.y / controller.maxAngle) *
+          (_maxShadowOffset - _minShadowOffset);
 
   /// The shadow's offset on the vertical axis.
   double get verticalShadowOffset =>
-      _minShadowOffset + (controller.x / controller.maxAngle) * (_maxShadowOffset - _minShadowOffset);
+      _minShadowOffset +
+      (controller.x / controller.maxAngle) *
+          (_maxShadowOffset - _minShadowOffset);
 
   /// The shadow's maximum offset on all axises.
   double get maxShadowOffset =>
-      _minShadowOffset + ((elevation / _maxElevation) * (_maxShadowOffset - _minShadowOffset));
+      _minShadowOffset +
+      ((elevation / _maxElevation) * (_maxShadowOffset - _minShadowOffset));
 
   /// The shadow's blur radius.
-  double get shadowBlurRadius => _minBlurRadius + ((elevation / _maxElevation) * (_maxBlurRadius - _minBlurRadius));
+  double get shadowBlurRadius =>
+      _minBlurRadius +
+      ((elevation / _maxElevation) * (_maxBlurRadius - _minBlurRadius));
 
   /// The shadow's blur opacity.
-  double get shadowBlurOpacity => _minBlurOpacity + ((elevation / _maxElevation) * (_maxBlurOpacity - _minBlurOpacity));
+  double get shadowBlurOpacity =>
+      _minBlurOpacity +
+      ((elevation / _maxElevation) * (_maxBlurOpacity - _minBlurOpacity));
 
   /// The clamped elevation value.
   int get elevation => min(_maxElevation.toInt(), widget.elevation);
@@ -100,8 +114,10 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
 
     if (event != null) {
       // Apply the event's rotation based on the device orientation.
-      controller.x += (orientation == Orientation.landscape ? -event.y : event.x) * 0.01;
-      controller.y -= (orientation == Orientation.landscape ? event.x : event.y) * 0.01;
+      controller.x +=
+          (orientation == Orientation.landscape ? -event.y : event.x) * 0.01;
+      controller.y -=
+          (orientation == Orientation.landscape ? event.x : event.y) * 0.01;
 
       // Normalize the values.
       controller.normalize();
@@ -136,11 +152,14 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
                   bottom: verticalShadowOffset - topShadowOffset,
                   child: Container(
                       clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(borderRadius: widget.borderRadius, boxShadow: [
-                        BoxShadow(
-                            blurRadius: shadowBlurRadius,
-                            color: Color.fromARGB((shadowBlurOpacity * 255).toInt(), 0, 0, 0))
-                      ]))),
+                      decoration: BoxDecoration(
+                          borderRadius: widget.borderRadius,
+                          boxShadow: [
+                            BoxShadow(
+                                blurRadius: shadowBlurRadius,
+                                color: Color.fromARGB(
+                                    (shadowBlurOpacity * 255).toInt(), 0, 0, 0))
+                          ]))),
             Transform(
                 transform: computeTransformForEvent(snapshot.data),
                 alignment: FractionalOffset.center,
@@ -152,10 +171,18 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
                                 clipBehavior: Clip.hardEdge,
                                 decoration: BoxDecoration(
                                     borderRadius: widget.borderRadius,
-                                    gradient: LinearGradient(colors: [
-                                      const Color.fromARGB(0, 255, 255, 255),
-                                      Color.fromARGB((glareOpacity * 255).toInt(), 255, 255, 255)
-                                    ], transform: GradientRotation(glareRotation)))))
+                                    gradient: LinearGradient(
+                                        colors: [
+                                          const Color.fromARGB(
+                                              0, 255, 255, 255),
+                                          Color.fromARGB(
+                                              (glareOpacity * 255).toInt(),
+                                              255,
+                                              255,
+                                              255)
+                                        ],
+                                        transform:
+                                            GradientRotation(glareRotation)))))
                       ])
                     : widget.child),
           ]));
