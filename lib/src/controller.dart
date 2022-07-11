@@ -22,6 +22,9 @@ class MotionController {
 
   MotionController({this.damping = 0.2, this.maxAngle = pi / 8});
 
+  // A default controller for initializing the widgets.
+  static final defaultController = MotionController();
+
   /// Clamps the values to the maximum angle allowed.
   void normalize() {
     x = min(maxAngle / 2, max(-maxAngle / 2, x));
