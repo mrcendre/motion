@@ -1,25 +1,16 @@
 import 'dart:math';
 
 import 'package:flutter/widgets.dart' hide Shadow;
-import 'package:sensors_plus/sensors_plus.dart';
+import 'configuration.dart';
+import 'input_stream.dart';
+import 'motion_event.dart';
+import 'utils/constants.dart';
 
 import 'controller.dart';
 
-const double _maxElevation = 100,
-    _minGlareOpacity = 0.1,
-    _maxGlareOpacity = 0.4,
-    _minShadowOffset = 0,
-    _maxShadowOffset = 40,
-    _minShadowTopOffset = 5,
-    _maxShadowTopOffset = 45,
-    _minBlurRadius = 10,
-    _maxBlurRadius = 40,
-    _minBlurOpacity = 0.3,
-    _maxBlurOpacity = 0.2;
-
 class Motion extends StatefulWidget {
   /// The controller that holds the widget's motion data.
-  final MotionController controller;
+  final MotionController? controller;
 
   /// The target widget.
   final Widget child;
@@ -34,16 +25,34 @@ class Motion extends StatefulWidget {
   /// Whether to apply a dynamic shadow to the widget.
   final bool shadow;
 
+  /// Whether to apply a dynamic translation effect on the widget's X and Y positions.
+  final bool translation;
+
   /// An optional border radius to apply to the widget.
   final BorderRadius? borderRadius;
 
+  /// Creates a [Motion] widget with the given [child] and [controller], applying all of the effects.
   const Motion({
     Key? key,
-    required this.controller,
+    this.controller,
     required this.child,
     this.elevation = 10,
     this.glare = true,
     this.shadow = true,
+    this.translation = true,
+    this.borderRadius,
+  })  : assert(elevation > 0 && elevation <= 100),
+        super(key: key);
+
+  /// Creates a [Motion] widget with the given [child] and [controller], but only applying the motion effect.
+  const Motion.only({
+    Key? key,
+    this.controller,
+    required this.child,
+    this.elevation = 10,
+    this.glare = false,
+    this.shadow = false,
+    this.translation = false,
     this.borderRadius,
   })  : assert(elevation > 0 && elevation <= 100),
         super(key: key);
@@ -53,14 +62,18 @@ class Motion extends StatefulWidget {
 }
 
 class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
+  /// The controller to use.
+  MotionController get controller =>
+      widget.controller ?? MotionController.defaultController;
+
   /// The intensity of the glare effect. Used as the gradient's opacity.
   double get glareOpacity => max(
       0,
       min(
-        _maxGlareOpacity,
-        _minGlareOpacity +
+        maxGlareOpacity,
+        minGlareOpacity +
             (controller.x / controller.maxAngle) *
-                (_maxGlareOpacity - _minGlareOpacity),
+                (maxGlareOpacity - minGlareOpacity),
       ));
 
   /// The rotation of the glare effect's gradient.
@@ -69,66 +82,73 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
 
   /// The base top shadow offset.
   double get topShadowOffset =>
-      _minShadowTopOffset +
-      (widget.elevation / _maxElevation) *
-          (_maxShadowTopOffset - _minShadowTopOffset);
+      minShadowTopOffset +
+      (widget.elevation / maxElevation) *
+          (maxShadowTopOffset - minShadowTopOffset);
 
   /// The shadow's offset on the horizontal axis.
   double get horizontalShadowOffset =>
-      _minShadowOffset +
+      minShadowOffset +
       (controller.y / controller.maxAngle) *
-          (_maxShadowOffset - _minShadowOffset);
+          (maxShadowOffset - minShadowOffset);
 
   /// The shadow's offset on the vertical axis.
   double get verticalShadowOffset =>
-      _minShadowOffset +
+      minShadowOffset +
       (controller.x / controller.maxAngle) *
-          (_maxShadowOffset - _minShadowOffset);
-
-  /// The shadow's maximum offset on all axises.
-  double get maxShadowOffset =>
-      _minShadowOffset +
-      ((elevation / _maxElevation) * (_maxShadowOffset - _minShadowOffset));
+          (maxShadowOffset - minShadowOffset);
 
   /// The shadow's blur radius.
   double get shadowBlurRadius =>
-      _minBlurRadius +
-      ((elevation / _maxElevation) * (_maxBlurRadius - _minBlurRadius));
+      minBlurRadius +
+      ((elevation / maxElevation) * (maxBlurRadius - minBlurRadius));
 
   /// The shadow's blur opacity.
   double get shadowBlurOpacity =>
-      _minBlurOpacity +
-      ((elevation / _maxElevation) * (_maxBlurOpacity - _minBlurOpacity));
+      minBlurOpacity +
+      ((elevation / maxElevation) * (maxBlurOpacity - minBlurOpacity));
+
+  /// The distance value.
+  double get distance => (elevation / maxElevation) * maxDistance;
 
   /// The clamped elevation value.
-  int get elevation => min(_maxElevation.toInt(), widget.elevation);
+  int get elevation => min(maxElevation.toInt(), widget.elevation);
 
-  /// The widget's controller.
-  MotionController get controller => widget.controller;
-
+  /// The device's orientation.
   Orientation? orientation;
 
   /// Computes the new rotation for each axis from the given [event], and updates the .
-  Matrix4 computeTransformForEvent(GyroscopeEvent? event) {
+  Matrix4 computeTransformForEvent(MotionEvent? event) {
     final matrix = Matrix4.identity()..setEntry(3, 2, 0.0015);
 
     if (event != null) {
-      // Apply the event's rotation based on the device orientation.
-      controller.x +=
-          (orientation == Orientation.landscape ? -event.y : event.x) * 0.01;
-      controller.y -=
-          (orientation == Orientation.landscape ? event.x : event.y) * 0.01;
+      // In case of relative events...
+      if (event.type == MotionType.gyroscope) {
+        // Apply the event's rotation based on the device orientation.
+        controller.x +=
+            (orientation == Orientation.landscape ? -event.y : event.x) * 0.01;
+        controller.y -=
+            (orientation == Orientation.landscape ? event.x : event.y) * 0.01;
 
-      // Normalize the values.
-      controller.normalize();
+        // Normalize the values.
+        controller.normalize();
 
-      // Apply the damping factor.
-      controller.x *= controller.dampingFactor;
-      controller.y *= controller.dampingFactor;
+        // Apply the damping factor.
+        controller.x *= controller.dampingFactor;
+        controller.y *= controller.dampingFactor;
+      } else {
+        controller.x = event.x * (controller.maxAngle / 2);
+        controller.y = event.y * (controller.maxAngle / 2);
+      }
 
       // Rotate the matrix by the resulting x and y values.
       matrix.rotateX(controller.x);
       matrix.rotateY(controller.y);
+
+      if (widget.translation) {
+        matrix.translate(
+            controller.y * -(distance * 2.0), controller.x * distance);
+      }
     }
 
     return matrix;
@@ -141,49 +161,56 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
   }
 
   @override
-  Widget build(BuildContext context) => StreamBuilder<GyroscopeEvent>(
-      stream: gyroscopeEvents,
-      builder: (ctx, snapshot) => Stack(clipBehavior: Clip.none, children: [
-            if (widget.elevation != 0 && widget.shadow)
-              Positioned(
-                  left: horizontalShadowOffset,
-                  right: -horizontalShadowOffset,
-                  top: -verticalShadowOffset + topShadowOffset,
-                  bottom: verticalShadowOffset - topShadowOffset,
-                  child: Container(
-                      clipBehavior: Clip.hardEdge,
-                      decoration: BoxDecoration(
-                          borderRadius: widget.borderRadius,
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: shadowBlurRadius,
-                                color: Color.fromARGB(
-                                    (shadowBlurOpacity * 255).toInt(), 0, 0, 0))
-                          ]))),
-            Transform(
-                transform: computeTransformForEvent(snapshot.data),
-                alignment: FractionalOffset.center,
-                child: widget.glare
-                    ? Stack(clipBehavior: Clip.none, children: [
-                        widget.child,
-                        Positioned.fill(
-                            child: Container(
-                                clipBehavior: Clip.hardEdge,
-                                decoration: BoxDecoration(
-                                    borderRadius: widget.borderRadius,
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          const Color.fromARGB(
-                                              0, 255, 255, 255),
-                                          Color.fromARGB(
-                                              (glareOpacity * 255).toInt(),
-                                              255,
-                                              255,
-                                              255)
-                                        ],
-                                        transform:
-                                            GradientRotation(glareRotation)))))
-                      ])
-                    : widget.child),
-          ]));
+  Widget build(BuildContext context) => InputStream(
+      child: Builder(
+          builder: (ctx) => StreamBuilder<MotionEvent>(
+              stream: MotionConfiguration.of(ctx)?.stream,
+              builder: (ctx, snapshot) =>
+                  Stack(clipBehavior: Clip.none, children: [
+                    if (widget.elevation != 0 && widget.shadow)
+                      Positioned(
+                          left: horizontalShadowOffset,
+                          right: -horizontalShadowOffset,
+                          top: -verticalShadowOffset + topShadowOffset,
+                          bottom: verticalShadowOffset - topShadowOffset,
+                          child: Container(
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(
+                                  borderRadius: widget.borderRadius,
+                                  boxShadow: [
+                                    BoxShadow(
+                                        blurRadius: shadowBlurRadius,
+                                        color: Color.fromARGB(
+                                            (shadowBlurOpacity * 255).toInt(),
+                                            0,
+                                            0,
+                                            0))
+                                  ]))),
+                    Transform(
+                        transform: computeTransformForEvent(snapshot.data),
+                        alignment: FractionalOffset.center,
+                        child: widget.glare
+                            ? Stack(clipBehavior: Clip.none, children: [
+                                widget.child,
+                                Positioned.fill(
+                                    child: Container(
+                                        clipBehavior: Clip.hardEdge,
+                                        decoration: BoxDecoration(
+                                            borderRadius: widget.borderRadius,
+                                            gradient: LinearGradient(
+                                                colors: [
+                                                  const Color.fromARGB(
+                                                      0, 255, 255, 255),
+                                                  Color.fromARGB(
+                                                      (glareOpacity * 255)
+                                                          .toInt(),
+                                                      255,
+                                                      255,
+                                                      255)
+                                                ],
+                                                transform: GradientRotation(
+                                                    glareRotation)))))
+                              ])
+                            : widget.child),
+                  ]))));
 }

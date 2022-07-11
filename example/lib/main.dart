@@ -51,7 +51,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: Theme.of(context).textTheme.bodyText1,
               )),
           Motion(
-            elevation: 7,
+            elevation: 100,
             borderRadius: cardBorderRadius,
             controller: controller,
             child: _buildCard(width: 280, height: 170),

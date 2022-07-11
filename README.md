@@ -14,21 +14,15 @@ flutter run --release
 
 ## How to use 
 
-Wrap your target widget as child of a [Motion] widget. You are required to provide a [MotionController] instance that will hold your widget's transformations. The simplest usage of this widget is the following :
+Wrap your target widget as child of a [Motion] widget. You can provide a [MotionController] instance that will hold your widget's transformations. The simplest usage of this widget is the following :
 
 ```dart
 
 import 'package:motion/motion.dart';
 
-final controller = MotionController();
-
 ...
 
-return Motion(
-    elevation: 7,
-    controller: controller,
-    child: myWidget,
-);
+return Motion(child: myWidget);
 
 ```
 
@@ -44,13 +38,13 @@ _Comparing different elevations_
 
 ### Shadow
 
-The **shadow** is optional and depends, if enabled, on the `elevation` value. This higher the `elevation`, the blurrier and the lower the shadow will get from behind the widget, just like in the Material design language. The amplitude of its movement is also controlled by the `elevation`.
+The **shadow** is optional and depends, if enabled, on the `elevation` value. The higher the `elevation`, the blurrier and the lower from behind the widget the shadow will get. This aims to have the same behavior as Material design language's notion of elevation. The amplitude of the shadow's movement is also controlled by the `elevation`.
 
 !["Shadow effect comparison"](https://github.com/mrcendre/motion/raw/main/example/gifs/shadow.gif)
 
 _Comparing with and without the shadow effect_
 
-By default, the `shadow` is enabled but you can disable it by constructing the `Motion` widget, with `shadow: false`.
+By default, the `shadow` is enabled but you can disable it by constructing the `Motion` widget with `shadow: false`.
 
 ### Glare
 
@@ -60,5 +54,5 @@ The **glare** effect is also optional. It is a very subtle gradient overlay that
 
 _Comparing with and without the glare effect_
 
-Also enabled by default, you can disable this effect by constructing the `Motion` widget, with `glare: false`.
+Also enabled by default, you can disable this effect by constructing the `Motion` widget with `glare: false`.
 
