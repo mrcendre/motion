@@ -1,3 +1,8 @@
+# 1.1.1
+
+* Ignore pointer on both the glare and shadow effects to allow user input on the widget.
+* The glare effect's gradient now rotates from left to right, instead of bottomRight to topRight.
+
 ## 1.1.0
 
 * Made the [controller] parameter optional in the wiget's constructor.
