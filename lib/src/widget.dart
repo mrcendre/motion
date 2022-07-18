@@ -78,7 +78,7 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
 
   /// The rotation of the glare effect's gradient.
   double get glareRotation =>
-      controller.y / (controller.maxAngle * 2) * (2 * pi);
+      pi / 2 + (controller.y / (controller.maxAngle * 2) * (2 * pi));
 
   /// The base top shadow offset.
   double get topShadowOffset =>
@@ -173,19 +173,21 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
                           right: -horizontalShadowOffset,
                           top: -verticalShadowOffset + topShadowOffset,
                           bottom: verticalShadowOffset - topShadowOffset,
-                          child: Container(
-                              clipBehavior: Clip.hardEdge,
-                              decoration: BoxDecoration(
-                                  borderRadius: widget.borderRadius,
-                                  boxShadow: [
-                                    BoxShadow(
-                                        blurRadius: shadowBlurRadius,
-                                        color: Color.fromARGB(
-                                            (shadowBlurOpacity * 255).toInt(),
-                                            0,
-                                            0,
-                                            0))
-                                  ]))),
+                          child: IgnorePointer(
+                              child: Container(
+                                  clipBehavior: Clip.hardEdge,
+                                  decoration: BoxDecoration(
+                                      borderRadius: widget.borderRadius,
+                                      boxShadow: [
+                                        BoxShadow(
+                                            blurRadius: shadowBlurRadius,
+                                            color: Color.fromARGB(
+                                                (shadowBlurOpacity * 255)
+                                                    .toInt(),
+                                                0,
+                                                0,
+                                                0))
+                                      ])))),
                     Transform(
                         transform: computeTransformForEvent(snapshot.data),
                         alignment: FractionalOffset.center,
@@ -193,23 +195,25 @@ class _MotionState extends State<Motion> with SingleTickerProviderStateMixin {
                             ? Stack(clipBehavior: Clip.none, children: [
                                 widget.child,
                                 Positioned.fill(
-                                    child: Container(
-                                        clipBehavior: Clip.hardEdge,
-                                        decoration: BoxDecoration(
-                                            borderRadius: widget.borderRadius,
-                                            gradient: LinearGradient(
-                                                colors: [
-                                                  const Color.fromARGB(
-                                                      0, 255, 255, 255),
-                                                  Color.fromARGB(
-                                                      (glareOpacity * 255)
-                                                          .toInt(),
-                                                      255,
-                                                      255,
-                                                      255)
-                                                ],
-                                                transform: GradientRotation(
-                                                    glareRotation)))))
+                                    child: IgnorePointer(
+                                        child: Container(
+                                            clipBehavior: Clip.hardEdge,
+                                            decoration: BoxDecoration(
+                                                borderRadius:
+                                                    widget.borderRadius,
+                                                gradient: LinearGradient(
+                                                    colors: [
+                                                      const Color.fromARGB(
+                                                          0, 255, 255, 255),
+                                                      Color.fromARGB(
+                                                          (glareOpacity * 255)
+                                                              .toInt(),
+                                                          255,
+                                                          255,
+                                                          255)
+                                                    ],
+                                                    transform: GradientRotation(
+                                                        glareRotation))))))
                               ])
                             : widget.child),
                   ]))));
