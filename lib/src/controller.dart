@@ -1,6 +1,6 @@
 import 'dart:math';
 
-const _maxDampingFactor = 0.05, _minDampingFactor = 0.01;
+import 'utils/constants.dart';
 
 class MotionController {
   /// The speed at which the widget is attracted to its initial position. The higher the value, the faster the widget
@@ -9,7 +9,7 @@ class MotionController {
 
   double get dampingFactor =>
       1 -
-      (_minDampingFactor + (damping * (_maxDampingFactor - _minDampingFactor)));
+      (minDampingFactor + (damping * (maxDampingFactor - minDampingFactor)));
 
   /// The maximum angle at which the widget will be allowed to turn in every axis, in radians.
   double maxAngle;
