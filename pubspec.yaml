@@ -4,8 +4,14 @@ version: 1.1.2
 homepage: https://cendre.me
 repository: https://github.com/mrcendre/motion
 issue_tracker: https://github.com/mrcendre/motion/issues?q=is%3Aissue+is%3Aopen
-
-
+platforms:
+  android:
+  ios:
+  linux:
+  macos:
+  web:
+  windows:
+  
 environment:
   sdk: ">=2.16.0 <3.0.0"
   flutter: ">=1.17.0"
