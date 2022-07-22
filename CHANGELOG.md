@@ -1,6 +1,8 @@
 ## 1.1.2
 
-* Added support for older Flutter versions (2.x.x).
+* Added explicit support for all platforms in pubspec.
+* Added support for older Flutter versions.
+* Set minimum Dart SDK version to 2.12.0 to increase compatibility.
 
 ## 1.1.1
 
@@ -18,6 +20,7 @@
 ## 1.0.1
 
 * Minor package hygiene improvements.
+
 ## 1.0.0
 
 * Initial release with 'Motion' widget and 'MotionController'.
