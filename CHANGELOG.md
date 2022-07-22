@@ -1,4 +1,8 @@
-# 1.1.1
+## 1.1.2
+
+* Added support for older Flutter versions (2.x.x).
+
+## 1.1.1
 
 * Ignore pointer on both the glare and shadow effects to allow user input on the widget.
 * The glare effect's gradient now rotates from left to right, instead of bottomRight to topRight.
