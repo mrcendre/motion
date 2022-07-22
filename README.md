@@ -1,6 +1,6 @@
 # Motion for Flutter widgets
 
-This package adds a new `Motion` widget that applies a gyroscope-based effect to Flutter widgets.
+This package adds a new `Motion` widget that applies a gyroscope-based effect to Flutter widgets. On desktop or when the gyroscope in not available, the effect is based on the pointer's hovering.
 
 
 !["Demo of the Motion plugin"](https://github.com/mrcendre/motion/raw/main/example/gifs/demo.gif)

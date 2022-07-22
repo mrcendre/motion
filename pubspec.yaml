@@ -1,6 +1,6 @@
 name: motion
 description: A fancy Widget that applies a gyroscope-based motion effect to its child.
-version: 1.1.2
+version: 1.1.3
 homepage: https://cendre.me
 repository: https://github.com/mrcendre/motion
 issue_tracker: https://github.com/mrcendre/motion/issues?q=is%3Aissue+is%3Aopen
