@@ -1,3 +1,7 @@
+## 1.1.3
+
+* Removed null safety warning about [WidgetsBinding.instance] across Flutter 2 and 3.
+
 ## 1.1.2
 
 * Added explicit support for all platforms in pubspec.
