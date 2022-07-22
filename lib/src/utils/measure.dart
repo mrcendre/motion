@@ -9,6 +9,9 @@ class MeasureSizeRenderObject extends RenderProxyBox {
 
   MeasureSizeRenderObject(this.onChange);
 
+  /// Temporarily used to remove null safety warning about [WidgetsBinding.instance] across Flutter 2 and 3.
+  T? _ambiguate<T>(T? value) => value;
+
   @override
   void performLayout() {
     super.performLayout();
@@ -18,8 +21,7 @@ class MeasureSizeRenderObject extends RenderProxyBox {
 
     oldSize = newSize;
 
-    // ignore: invalid_null_aware_operator
-    WidgetsBinding.instance?.addPostFrameCallback((_) {
+    _ambiguate(WidgetsBinding.instance)?.addPostFrameCallback((_) {
       onChange(newSize);
     });
   }
