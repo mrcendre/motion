@@ -1,3 +1,10 @@
+## 1.2.0
+
+* Added [GlareConfiguration], [ShadowConfiguration] and [TranslationConfiguration] to allow for more customization.
+* Moved the [elevation] parameter to a [Motion.elevated] constructor that computes the appropriate configurations.
+* Improved performances by optimizing the widget tree and input events handling.
+* Fixed some cases of jumpy rotation when the pointer is leaving or entering.
+
 ## 1.1.3
 
 * Removed null safety warning about [WidgetsBinding.instance] across Flutter 2 and 3.
