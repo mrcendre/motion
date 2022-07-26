@@ -80,3 +80,5 @@ Please make sure that your concern hasn't already been addressed in the 'Closed'
 # Credits
 
 This package was developed with ♥ by [@mrcendre](https://cendre.me/).
+
+Thanks to [@sebstianbuechler](https://github.com/sebastianbuechler) for his contribution !

@@ -63,7 +63,7 @@ class Motion extends StatefulWidget {
   /// Higher [elevation] values allows to :
   ///
   ///   - Blur and lower the shadow from behind your widget, as if it was floating higher
-  ///   - Increase the distance by widget will be translated on the X and Y axises
+  ///   - Increase the distance by which the widget will be translated on the X and Y axises
   ///
   /// [elevation] may range from 0 to 100, allowing you to easily stay consistent accross your design.
   factory Motion.elevated({
