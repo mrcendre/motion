@@ -1,13 +1,19 @@
+## 1.2.1
+
+* Added interstitial events on Android when the gyroscope events' rate is too low. Bye-bye, jumpy motion !
+* Updated sample app to use new constructors. ([#4](https://github.com/mrcendre/motion/pull/4))
+* Removed `hitTestBehavior` on MouseRegion to remain compatible with Flutter versions prior to 3.0.0. ([#4](https://github.com/mrcendre/motion/pull/4))
+
 ## 1.2.0
 
-* Added [GlareConfiguration], [ShadowConfiguration] and [TranslationConfiguration] to allow for more customization.
-* Moved the [elevation] parameter to a [Motion.elevated] constructor that computes the appropriate configurations.
+* Added `GlareConfiguration`, `ShadowConfiguration` and `TranslationConfiguration` to allow for more customization.
+* Moved the `elevation` parameter to a `Motion.elevated`]` constructor that computes the appropriate configurations.
 * Improved performances by optimizing the widget tree and input events handling.
 * Fixed some cases of jumpy rotation when the pointer is leaving or entering.
 
 ## 1.1.3
 
-* Removed null safety warning about [WidgetsBinding.instance] across Flutter 2 and 3.
+* Removed null safety warning about `WidgetsBinding.instance` across Flutter 2 and 3.
 
 ## 1.1.2
 
@@ -22,10 +28,10 @@
 
 ## 1.1.0
 
-* Made the [controller] parameter optional in the wiget's constructor.
-* Provide a [MotionController.defaultController] to use when no customization is required.
-* Added a [Motion.only] constructor to disable all effects by default.
-* Added support for desktop mouses using [MouseRegion] and [Listener].
+* Made the `controller` parameter optional in the wiget's constructor.
+* Provide a `MotionController.defaultController` to use when no customization is required.
+* Added a `Motion.only` constructor to disable all effects by default.
+* Added support for desktop mouses using `MouseRegion` and `Listener`.
 * Added dynamic translation effect.
 
 ## 1.0.1
@@ -34,5 +40,5 @@
 
 ## 1.0.0
 
-* Initial release with 'Motion' widget and 'MotionController'.
+* Initial release with `Motion` widget and `MotionController`.
 * Supports setting a custom elevation
