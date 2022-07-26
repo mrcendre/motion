@@ -60,7 +60,6 @@ class _PointerListenerState extends State<PointerListener> {
                   onEnter: (details) {
                     onPointerEnter();
                   },
-                  hitTestBehavior: HitTestBehavior.translucent,
                   child: Container()));
         }))
       ]);

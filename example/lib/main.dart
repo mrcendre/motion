@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 'without Motion',
                 style: Theme.of(context).textTheme.bodyText1,
               )),
-          Motion(
+          Motion.elevated(
             elevation: 100,
             borderRadius: cardBorderRadius,
             controller: controller,
