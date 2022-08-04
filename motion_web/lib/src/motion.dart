@@ -98,7 +98,7 @@ class WebMotion extends MotionPlatform {
   Stream<MotionEvent>? _gyroscopeStream;
 
   @override
-  Stream<MotionEvent> get gyroscopeStream {
+  Stream<MotionEvent>? get gyroscopeStream {
     if (_gyroscopeStreamController == null) {
       _gyroscopeStreamController = StreamController();
 
@@ -185,7 +185,7 @@ class WebMotion extends MotionPlatform {
       _gyroscopeStream = _gyroscopeStreamController!.stream.asBroadcastStream();
     }
 
-    return _gyroscopeStream!;
+    return _gyroscopeStream;
   }
 
   @override
