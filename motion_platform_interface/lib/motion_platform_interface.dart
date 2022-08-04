@@ -49,7 +49,7 @@ abstract class MotionPlatform extends PlatformInterface {
 
   bool get requiresPermission => false;
 
-  Stream<MotionEvent> get gyroscopeStream => const Stream.empty();
+  Stream<MotionEvent>? get gyroscopeStream => null;
 
   Future<void> initialize() async {
     throw UnimplementedError();
