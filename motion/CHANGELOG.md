@@ -1,3 +1,7 @@
+## 1.3.1
+
+* Fixed an issue with native platforms lacking event and method channels. 
+
 ## 1.3.0
 
 * Motion is now a federated plugin, depending on `motion_platform_interface` and `motion_web`.

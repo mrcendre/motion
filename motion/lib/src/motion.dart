@@ -103,7 +103,7 @@ class Motion extends StatefulWidget {
       MotionPlatform.instance.isGyroscopeAvailable;
 
   /// A boolean indicating whether the gyroscope is available on the current platform.
-  static Stream<MotionEvent> get gyroscopeStream =>
+  static Stream<MotionEvent>? get gyroscopeStream =>
       MotionPlatform.instance.gyroscopeStream;
 
   /// Whether the motion sensor requires a permission to be accessed.

@@ -31,8 +31,8 @@ class InputStreamState extends State<InputStream> {
   @override
   void initState() {
     super.initState();
-    inputStream = Motion.isGyroscopeAvailable
-        ? Motion.gyroscopeStream
+    inputStream = Motion.isGyroscopeAvailable && Motion.gyroscopeStream != null
+        ? Motion.gyroscopeStream!
         : _pointerStreamController.stream;
   }
 
