@@ -28,6 +28,8 @@ class InputStream extends StatefulWidget {
 class InputStreamState extends State<InputStream> {
   late Stream<MotionEvent> inputStream;
 
+  DateTime? lastPointerEventTime;
+
   @override
   void initState() {
     super.initState();
@@ -45,6 +47,18 @@ class InputStreamState extends State<InputStream> {
                 child: widget.child,
                 onPositionChange: (newOffset) {
                   if (!isListening) return;
+
+                  final now = DateTime.now();
+                  if (lastPointerEventTime == null) {
+                    lastPointerEventTime = now;
+                  } else if (now.difference(lastPointerEventTime!) <
+                      Motion.instance.updateInterval.duration) {
+                    /// Drop events more frequent than [_updateInterval]
+                    return;
+                  }
+
+                  lastPointerEventTime = now;
+
                   _pointerStreamController.add(MotionEvent(
                       type: MotionType.pointer,
                       x: newOffset.dx,
