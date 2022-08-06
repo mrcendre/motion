@@ -39,16 +39,27 @@ abstract class MotionPlatform extends PlatformInterface {
     _instance = instance;
   }
 
-  /// Platform's features declaration
+  /// Platform features declaration
 
-  bool get isSafariMobile => true;
+  /// Detects if the platform is Safari Mobile (iOS or iPad).
+  bool get isSafariMobile => false;
 
+  /// Indicates whether the gradient is available.
+  bool get isGradientOverlayAvailable => !isSafariMobile;
+
+  /// Indicates whether the gyroscope is available.
   bool get isGyroscopeAvailable => false;
 
-  bool get isPermissionGranted => false;
-
+  /// Indicates whether a permission is required to access gyroscope data.
   bool get requiresPermission => false;
 
+  /// Indicates whether the permission is granted.
+  bool get isPermissionGranted => false;
+
+  /// The interval at which the gyroscope stream is updated.
+  FramesPerSecond get updateInterval => 60.fps;
+
+  /// The gyroscope stream, if available.
   Stream<MotionEvent>? get gyroscopeStream => null;
 
   Future<void> initialize() async {
