@@ -1,3 +1,9 @@
+## 1.3.2
+
+* Added `filterQuality` to improve performances.
+* Moved static members of `Motion` to `Motion.instance`.
+* Drop events more frequent than the current `updateInterval`.
+
 ## 1.3.1
 
 * Fixed an issue with native platforms lacking event and method channels. 

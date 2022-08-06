@@ -1,4 +1,9 @@
+## 1.3.2
+
+- Moved static members of `Motion` to `Motion.instance`, an instance of `MotionPlatform`.
+
 ## 1.3.1
+
 
 - Fixed an issue with some native platforms lacking event and method channels implementations. 
 
