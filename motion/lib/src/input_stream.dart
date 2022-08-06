@@ -33,15 +33,16 @@ class InputStreamState extends State<InputStream> {
   @override
   void initState() {
     super.initState();
-    inputStream = Motion.isGyroscopeAvailable && Motion.gyroscopeStream != null
-        ? Motion.gyroscopeStream!
+    inputStream = Motion.instance.isGyroscopeAvailable &&
+            Motion.instance.gyroscopeStream != null
+        ? Motion.instance.gyroscopeStream!
         : _pointerStreamController.stream;
   }
 
   @override
   Widget build(BuildContext context) => MotionProvider(
         stream: inputStream,
-        child: Motion.isGyroscopeAvailable
+        child: Motion.instance.isGyroscopeAvailable
             ? widget.child
             : PointerListener(
                 child: widget.child,
