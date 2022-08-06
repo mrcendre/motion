@@ -132,55 +132,59 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
   Widget build(BuildContext context) => StreamBuilder<MotionEvent>(
       stream: MotionProvider.of(context)?.stream ??
           const Stream<MotionEvent>.empty(),
-      builder: (ctx, snapshot) {
-        return Stack(clipBehavior: Clip.none, children: [
-          if (widget.shadow != null && widget.shadow!.isVisible)
-            Positioned(
-                left: horizontalShadowOffset,
-                right: -horizontalShadowOffset,
-                top: -verticalShadowOffset + widget.shadow!.topOffset,
-                bottom: verticalShadowOffset - widget.shadow!.topOffset,
-                child: IgnorePointer(
-                    child: Container(
-                        clipBehavior: Clip.hardEdge,
-                        decoration: BoxDecoration(
-                            borderRadius: widget.borderRadius,
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: widget.shadow!.blurRadius,
-                                  color: widget.shadow!.color
-                                      .withOpacity(widget.shadow!.opacity))
-                            ])))),
-          Transform(
-              transform: computeTransformForEvent(snapshot.data),
-              alignment: FractionalOffset.center,
-              child: widget.glare != null && Motion.isGradientOverlayAvailable
-                  ? Stack(clipBehavior: Clip.none, children: [
-                      widget.child,
-                      Positioned.fill(
-                          child: IgnorePointer(
-                              child: Container(
-                                  clipBehavior: Clip.hardEdge,
-                                  decoration: BoxDecoration(
-                                    borderRadius: widget.borderRadius,
-                                    gradient: LinearGradient(
-                                        colors: [
-                                          (widget.glare?.color ??
-                                                  defaultGlareColor)
-                                              .withOpacity(
-                                                  widget.glare?.minOpacity ??
-                                                      minGlareOpacity),
-                                          (widget.glare?.color ??
-                                                  defaultGlareColor)
-                                              .withOpacity(
-                                                  widget.glare?.maxOpacity ??
-                                                      maxGlareOpacity)
-                                        ],
-                                        transform:
-                                            GradientRotation(glareRotation)),
-                                  ))))
-                    ])
-                  : widget.child),
-        ]);
-      });
+      initialData: MotionEvent.zero(
+          type: Motion.instance.isGyroscopeAvailable
+              ? MotionType.gyroscope
+              : MotionType.pointer),
+      builder: (ctx, snapshot) => Stack(clipBehavior: Clip.none, children: [
+            if (widget.shadow != null && widget.shadow!.isVisible)
+              Positioned(
+                  left: horizontalShadowOffset,
+                  right: -horizontalShadowOffset,
+                  top: -verticalShadowOffset + widget.shadow!.topOffset,
+                  bottom: verticalShadowOffset - widget.shadow!.topOffset,
+                  child: IgnorePointer(
+                      child: Container(
+                          clipBehavior: Clip.hardEdge,
+                          decoration: BoxDecoration(
+                              borderRadius: widget.borderRadius,
+                              boxShadow: [
+                                BoxShadow(
+                                    blurRadius: widget.shadow!.blurRadius,
+                                    color: widget.shadow!.color
+                                        .withOpacity(widget.shadow!.opacity))
+                              ])))),
+            Transform(
+                transform: computeTransformForEvent(snapshot.data),
+                alignment: FractionalOffset.center,
+                filterQuality: filterQuality,
+                child: widget.glare != null &&
+                        Motion.instance.isGradientOverlayAvailable
+                    ? Stack(clipBehavior: Clip.none, children: [
+                        widget.child,
+                        Positioned.fill(
+                            child: IgnorePointer(
+                                child: Container(
+                                    clipBehavior: Clip.hardEdge,
+                                    decoration: BoxDecoration(
+                                      borderRadius: widget.borderRadius,
+                                      gradient: LinearGradient(
+                                          colors: [
+                                            (widget.glare?.color ??
+                                                    defaultGlareColor)
+                                                .withOpacity(
+                                                    widget.glare?.minOpacity ??
+                                                        minGlareOpacity),
+                                            (widget.glare?.color ??
+                                                    defaultGlareColor)
+                                                .withOpacity(
+                                                    widget.glare?.maxOpacity ??
+                                                        maxGlareOpacity)
+                                          ],
+                                          transform:
+                                              GradientRotation(glareRotation)),
+                                    ))))
+                      ])
+                    : widget.child),
+          ]));
 }
