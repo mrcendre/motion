@@ -6,7 +6,16 @@ import 'model/controller.dart';
 import 'motion_builder.dart';
 import 'input_stream.dart';
 
+/// A fancy widget that adds a gyroscope-based motion effect to its [child].
+///
+/// Platform-specific operations are performed using the static [instance].
 class Motion extends StatefulWidget {
+  /// The MotionPlatform instance to perform platform-specific operations.
+  ///
+  /// You may use it to initialize the platform, to detect feature availability and permission requirements,
+  /// to request permissions, and to set the update interval.
+  static final instance = MotionPlatform.instance;
+
   /// The controller that holds the widget's motion data.
   final MotionController? controller;
 
@@ -88,68 +97,6 @@ class Motion extends StatefulWidget {
             : null,
         borderRadius: borderRadius,
       );
-
-  static bool _isInitialized = false;
-
-  /// A hybrid method that uses the MotionPlatform instance to get information about the device's platform.
-  ///
-  /// On Safari iOS, issues have been noted when rendering [LinearGradient]s, covering the widget
-  /// with a black color. The glare effect is thus disabled internally when Safari iOS is detected.
-  static bool get isGradientOverlayAvailable =>
-      !MotionPlatform.instance.isSafariMobile;
-
-  /// A boolean indicating whether the gyroscope is available on the current platform.
-  static bool get isGyroscopeAvailable =>
-      MotionPlatform.instance.isGyroscopeAvailable;
-
-  /// A boolean indicating whether the gyroscope is available on the current platform.
-  static Stream<MotionEvent>? get gyroscopeStream =>
-      MotionPlatform.instance.gyroscopeStream;
-
-  /// Whether the motion sensor requires a permission to be accessed.
-  static bool get requiresPermission =>
-      MotionPlatform.instance.requiresPermission;
-
-  /// Whether the user has granted the app permission to use the motion sensor.
-  static bool get isPermissionGranted =>
-      MotionPlatform.instance.isGyroscopeAvailable == false ||
-      MotionPlatform.instance.isPermissionGranted;
-
-  static FramesPerSecond _updateInterval = defaultUpdateInterval;
-
-  static FramesPerSecond get updateInterval => _updateInterval;
-
-  static Future<void> initialize() async {
-    if (_isInitialized) return;
-
-    _isInitialized = true;
-    await MotionPlatform.instance.initialize();
-  }
-
-  /// Attempts to present the DeviceMotionEvent permission dialog if the platform requires it.
-  ///
-  /// Note: this must always be called after an user input or gesture, otherwise it will fail.
-  /// For example, you can show a dialog that informs the user that this permission is needed,
-  /// and then call this method.
-  static Future<bool> requestPermission() async {
-    return MotionPlatform.instance.requestPermission();
-  }
-
-  /// A method to set the interval at which the motion widget will update.
-  ///
-  /// Higher values will result in more accurate motion data and thus smoother motion of the widgets,
-  /// but will also have an increased impact on performances.
-  ///
-  /// The ideal sampling rate matches Flutter's recommended 60 FPS (frames per seconds).
-  /// However, a performance compromise may be required on certain older devices.
-  /// In that case, you could use the standard 30 FPS or 24 FPS, the latter being the lowest
-  /// frame rate required to make motion appear natural to the human eye.
-  ///
-  /// The best practice for setting the sensor rate is to do it once, when initializing your app.
-  static void setUpdateInterval(FramesPerSecond updateInterval) {
-    _updateInterval = updateInterval;
-    MotionPlatform.instance.setUpdateInterval(updateInterval);
-  }
 
   @override
   State<Motion> createState() => _MotionState();

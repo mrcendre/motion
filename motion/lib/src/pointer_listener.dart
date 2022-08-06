@@ -34,8 +34,10 @@ class _PointerListenerState extends State<PointerListener> {
   /// A track of the latest size returned by the widget's layout builder.
   Size? childSize;
 
-  /// Values used for deltas and throttling
+  /// A value used for deltas and throttling
   Offset lastOffset = Offset.zero;
+
+  /// A value used for deltas and throttling
   DateTime lastPointerEvent = DateTime.now();
 
   /// When idle, the intensity factor is 0. When the pointer enters, it progressively animates to 1.
@@ -80,7 +82,7 @@ class _PointerListenerState extends State<PointerListener> {
 
   void _onPointerMove({required Offset position}) {
     if (DateTime.now().difference(lastPointerEvent) <
-        Motion.updateInterval.duration) {
+        Motion.instance.updateInterval.duration) {
       /// Drop event since it occurs too early.
       return;
     }
@@ -108,7 +110,8 @@ class _PointerListenerState extends State<PointerListener> {
     _cancelVelocityTimer();
 
     velocityTimer = Timer.periodic(
-        Duration(microseconds: 1 + Motion.updateInterval.inMicroseconds),
+        Duration(
+            microseconds: 1 + Motion.instance.updateInterval.inMicroseconds),
         (timer) {
       if (intensityFactor < 1) {
         if (intensityFactor <= 0.05) {
@@ -127,7 +130,8 @@ class _PointerListenerState extends State<PointerListener> {
     _cancelVelocityTimer();
 
     velocityTimer = Timer.periodic(
-        Duration(microseconds: 1 + Motion.updateInterval.inMicroseconds),
+        Duration(
+            microseconds: 1 + Motion.instance.updateInterval.inMicroseconds),
         (timer) {
       if (intensityFactor > 0.05) {
         intensityFactor = max(0, intensityFactor * 0.95);
