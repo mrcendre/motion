@@ -1,14 +1,17 @@
 import 'package:motion/motion.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/material.dart' hide Card;
+import 'package:motion_example/card.dart';
+
+const cardBorderRadius = BorderRadius.all(Radius.circular(25));
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   /// Initialize the plugin to determine gyroscope availability.
-  await Motion.initialize();
+  await Motion.instance.initialize();
 
   /// Globally set Motion's update interval to 60 frames per second.
-  Motion.setUpdateInterval(60.fps);
+  Motion.instance.setUpdateInterval(60.fps);
 
   /// ... and run the sample app.
   runApp(const MotionDemoApp());
@@ -33,13 +36,10 @@ class MotionDemoPage extends StatefulWidget {
 }
 
 class _MotionDemoPageState extends State<MotionDemoPage> {
-  final controller = MotionController();
-
-  final cardBorderRadius = BorderRadius.circular(25);
-
   @override
   Widget build(BuildContext context) {
-    if (Motion.requiresPermission && !Motion.isPermissionGranted) {
+    if (Motion.instance.requiresPermission &&
+        !Motion.instance.isPermissionGranted) {
       showPermissionRequestDialog(
         context,
         onDone: () {
@@ -60,7 +60,7 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
                   fontWeight: FontWeight.w800,
                   color: const Color.fromARGB(255, 0, 0, 0)),
             )),
-        _buildCard(width: 280, height: 170),
+        const Card(width: 280, height: 170, borderRadius: cardBorderRadius),
         Padding(
             padding: const EdgeInsets.only(top: 30, bottom: 30),
             child: Text(
@@ -68,10 +68,10 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
               style: Theme.of(context).textTheme.bodyText1,
             )),
         Motion.elevated(
-          elevation: 100,
+          elevation: 70,
           borderRadius: cardBorderRadius,
-          controller: controller,
-          child: _buildCard(width: 280, height: 170),
+          child: const Card(
+              width: 280, height: 170, borderRadius: cardBorderRadius),
         ),
         Padding(
             padding: const EdgeInsets.only(top: 30),
@@ -82,34 +82,6 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
       ]))
     ]));
   }
-
-  Widget _buildCard({required int width, required int height}) => Container(
-      width: width.toDouble(),
-      height: height.toDouble(),
-      clipBehavior: Clip.hardEdge,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-          borderRadius: cardBorderRadius,
-          color: const Color.fromARGB(255, 45, 45, 45)),
-      child: _buildShortDummyParagraph());
-
-  Widget _buildShortDummyParagraph() => Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _buildDummyLine(1),
-            const SizedBox(height: 5),
-            _buildDummyLine(0.98),
-            const SizedBox(height: 5),
-            _buildDummyLine(0.95),
-            const SizedBox(height: 5),
-            _buildDummyLine(0.6),
-          ]);
-
-  Widget _buildDummyLine(double widthFactor) => FractionallySizedBox(
-      widthFactor: widthFactor,
-      child: Container(
-          height: 20, color: const Color.fromARGB(100, 255, 255, 255)));
 
   Future<void> showPermissionRequestDialog(BuildContext context,
       {required Function() onDone}) async {
@@ -127,7 +99,7 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
                 TextButton(
                   onPressed: () {
                     Navigator.pop(context);
-                    Motion.requestPermission();
+                    Motion.instance.requestPermission();
                   },
                   child: const Text('OK'),
                 ),

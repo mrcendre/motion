@@ -13,6 +13,9 @@ final defaultUpdateInterval = 60.fps;
 const defaultGlareColor = Color(0xffffffff),
     defaultShadowColor = Color(0xff000000);
 
+/// Default filter quality
+const defaultFilterQuality = FilterQuality.high;
+
 /// Numeric constants
 const double maxElevation = 100,
 
