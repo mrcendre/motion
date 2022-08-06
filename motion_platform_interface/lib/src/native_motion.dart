@@ -35,9 +35,11 @@ class NativeMotion extends MotionPlatform {
   @override
   Stream<MotionEvent>? get gyroscopeStream {
     try {
-      _gyroscopeStream ??= _gyroscopeEventChannel?.receiveBroadcastStream().map((dynamic event) {
+      _gyroscopeStream ??=
+          _gyroscopeEventChannel?.receiveBroadcastStream().map((dynamic event) {
         final list = event.cast<double>();
-        return MotionEvent(type: MotionType.gyroscope, x: list[0]!, y: list[1]!, z: list[2]!);
+        return MotionEvent(
+            type: MotionType.gyroscope, x: list[0]!, y: list[1]!, z: list[2]!);
       });
       return _gyroscopeStream;
     } catch (e) {
@@ -71,6 +73,7 @@ class NativeMotion extends MotionPlatform {
   @override
   void setUpdateInterval(FramesPerSecond updateInterval) {
     _updateInterval = updateInterval;
-    _methodChannel?.invokeMethod('setUpdateInterval', _updateInterval.inMicroseconds);
+    _methodChannel?.invokeMethod(
+        'setUpdateInterval', _updateInterval.inMicroseconds);
   }
 }
