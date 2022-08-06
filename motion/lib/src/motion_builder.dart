@@ -28,6 +28,11 @@ class MotionStreamBuilder extends StatefulWidget {
   /// An optional border radius to apply to the widget.
   final BorderRadius? borderRadius;
 
+  /// The filter quality with which to apply the transform as a bitmap operation.
+  ///
+  /// Defaults to [defaultFilterQuality] when omitted in the constructor.
+  final FilterQuality? filterQuality;
+
   /// Creates a [Motion] widget with the given [child] and [controller], applying all of the effects.
   const MotionStreamBuilder({
     Key? key,
@@ -37,6 +42,7 @@ class MotionStreamBuilder extends StatefulWidget {
     required this.shadow,
     required this.translation,
     this.borderRadius,
+    this.filterQuality = defaultFilterQuality,
   }) : super(key: key);
 
   @override
@@ -73,6 +79,11 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
 
   /// The device's orientation.
   Orientation? orientation;
+
+  /// The effective filter quality. It ensures that the platform is not Safari Mobile, whose implementation
+  /// of Transform.filterQuality renders artifacts.
+  FilterQuality? get filterQuality =>
+      Motion.instance.isSafariMobile ? null : widget.filterQuality;
 
   /// Computes the new rotation for each axis from the given [event], and updates the .
   Matrix4 computeTransformForEvent(MotionEvent? event) {

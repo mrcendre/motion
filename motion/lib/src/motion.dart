@@ -34,6 +34,16 @@ class Motion extends StatefulWidget {
   /// An optional border radius to apply to the widget.
   final BorderRadius? borderRadius;
 
+  /// The filter quality with which to apply the transform as a bitmap operation.
+  ///
+  /// Defaults to [defaultFilterQuality] when omitted in the constructor.
+  ///
+  /// The transform will be applied by re-rendering the child if [filterQuality] is **explicitly set to null**,
+  /// otherwise it controls the quality of an [ImageFilter.matrix] applied to a bitmap rendering of the child.
+  ///
+  /// Note: it is internally enforced to [null] if the platform is Safari Mobile.
+  final FilterQuality? filterQuality;
+
   /// Creates a [Motion] widget with the given [child] and [controller], applying all of the default effects.
   ///
   /// The [controller] can be used to create a unique controller for each widget.
@@ -51,6 +61,7 @@ class Motion extends StatefulWidget {
     this.shadow = const ShadowConfiguration(),
     this.translation = const TranslationConfiguration(),
     this.borderRadius,
+    this.filterQuality = defaultFilterQuality,
   }) : super(key: key);
 
   /// Creates a [Motion] widget with the given [child] and [controller], but only applying the rotation effect by default.
@@ -64,6 +75,7 @@ class Motion extends StatefulWidget {
     this.shadow,
     this.translation,
     this.borderRadius,
+    this.filterQuality = defaultFilterQuality,
   }) : super(key: key);
 
   /// Creates a [Motion] widget by setting configurations according to the elevation of the widget.
@@ -85,6 +97,7 @@ class Motion extends StatefulWidget {
     bool glare = true,
     bool shadow = true,
     bool translation = true,
+    FilterQuality? filterQuality = defaultFilterQuality,
   }) =>
       Motion(
         key: key,
@@ -96,6 +109,7 @@ class Motion extends StatefulWidget {
             ? TranslationConfiguration.fromElevation(elevation)
             : null,
         borderRadius: borderRadius,
+        filterQuality: filterQuality,
       );
 
   @override
@@ -112,5 +126,6 @@ class _MotionState extends State<Motion> {
         shadow: widget.shadow,
         translation: widget.translation,
         borderRadius: widget.borderRadius,
+        filterQuality: widget.filterQuality,
       ));
 }
