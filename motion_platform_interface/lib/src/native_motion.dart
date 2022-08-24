@@ -55,10 +55,16 @@ class NativeMotion extends MotionPlatform {
       _methodChannel ??= MethodChannel('me.cendre.motion');
       _gyroscopeEventChannel ??= EventChannel('me.cendre.motion/gyroscope');
 
-      final isEmpty = await gyroscopeStream?.isEmpty ?? true;
+      try {
+        final isEmpty = await gyroscopeStream?.isEmpty
+                .timeout(const Duration(seconds: 1)) ??
+            true;
 
-      // If the stream does not exist or is empty.
-      _isGyroscopeAvailable = !isEmpty;
+        // If the stream does not exist or is empty.
+        _isGyroscopeAvailable = !isEmpty;
+      } catch (e) {
+        _isGyroscopeAvailable = false;
+      }
     } else if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
       // Desktop platforms should not use the gyroscope events.
       _isGyroscopeAvailable = false;
