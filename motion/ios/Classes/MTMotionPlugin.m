@@ -5,7 +5,25 @@
 #import "MTMotionPlugin.h"
 #import <CoreMotion/CoreMotion.h>
 
-CMMotionManager *_motionManager;
+static CMMotionManager *_motionManager;
+static void _initMotionManager() {
+  if (!_motionManager) {
+    _motionManager = [[CMMotionManager alloc] init];
+  }
+}
+
+static BOOL _isGyroscopeAvailable()
+{
+#ifdef __IPHONE_4_0
+    _initMotionManager();
+    BOOL gyroAvailable = _motionManager.gyroAvailable;
+    return gyroAvailable;
+#else
+    return NO;
+#endif
+
+}
+
 
 @interface MTMotionPlugin ()
 
@@ -42,18 +60,21 @@ CMMotionManager *_motionManager;
 
       return;
     }
+    
+    if ([@"isGyroscopeAvailable" isEqualToString:call.method]) {
+      BOOL available = _isGyroscopeAvailable();
+      result(@(available));
+
+      return;
+    }
 
     result(FlutterMethodNotImplemented);
 }
 
+
+
 @end
 
-
-void _initMotionManager() {
-  if (!_motionManager) {
-    _motionManager = [[CMMotionManager alloc] init];
-  }
-}
 
 static void sendTriplet(Float64 x, Float64 y, Float64 z,
                         FlutterEventSink sink) {

@@ -1,6 +1,7 @@
 package me.cendre.motion.plugin
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.hardware.Sensor
 import android.hardware.SensorManager
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -8,6 +9,7 @@ import io.flutter.embedding.engine.plugins.FlutterPlugin.FlutterPluginBinding
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
+
 
 /** MotionPlugin  */
 class MotionPlugin : FlutterPlugin {
@@ -46,14 +48,19 @@ class MotionPlugin : FlutterPlugin {
 
     private fun setupMethodChannel(context: Context, messenger: BinaryMessenger) {
         methodChannel = MethodChannel(messenger, METHOD_CHANNEL_NAME)
-        methodChannel.setMethodCallHandler {
-            call, result ->
-
+        methodChannel.setMethodCallHandler { call, result ->
             if (call.method == "setUpdateInterval") {
                 teardownEventChannels()
                 setupEventChannels(context, messenger, call.arguments as Int)
+                result.success(null)
             }
 
+            if (call.method == "isGyroscopeAvailable") {
+                val packageManager: PackageManager = context.packageManager
+                val gyroExists =
+                    packageManager.hasSystemFeature(PackageManager.FEATURE_SENSOR_GYROSCOPE)
+                result.success(gyroExists)
+            }
         }
     }
 
