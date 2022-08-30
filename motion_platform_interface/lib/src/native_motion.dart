@@ -53,12 +53,13 @@ class NativeMotion extends MotionPlatform {
   Future<void> initialize() async {
     if (Platform.isIOS || Platform.isAndroid) {
       _methodChannel ??= MethodChannel('me.cendre.motion');
-      _gyroscopeEventChannel ??= EventChannel('me.cendre.motion/gyroscope');
 
-      final isEmpty = await gyroscopeStream?.isEmpty ?? true;
+      _isGyroscopeAvailable =
+          await _methodChannel!.invokeMethod('isGyroscopeAvailable');
 
-      // If the stream does not exist or is empty.
-      _isGyroscopeAvailable = !isEmpty;
+      if (_isGyroscopeAvailable) {
+        _gyroscopeEventChannel ??= EventChannel('me.cendre.motion/gyroscope');
+      }
     } else if (Platform.isMacOS || Platform.isLinux || Platform.isWindows) {
       // Desktop platforms should not use the gyroscope events.
       _isGyroscopeAvailable = false;
