@@ -112,7 +112,7 @@ The Motion widget implementation wraps the child with a matrix-based `Transform`
   )
 ```
 
-When omitted 
+When omitted, the default value `FilterQuality.medium` is used.
 
 However, please note that due to limitations on Safari iOS, it is always enforced to `null` in this specific browser.
 
@@ -139,4 +139,4 @@ Please make sure that your concern hasn't already been addressed in the 'Closed'
 
 This package was developed with ♥ by [@mrcendre](https://cendre.me/).
 
-Thanks to [@sebstianbuechler](https://github.com/sebastianbuechler) for his contribution !
+Thanks to [@sebstianbuechler](https://github.com/sebastianbuechler) and [@ekasetiawans](https://github.com/ekasetiawans) for their contributions !

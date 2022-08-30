@@ -1,3 +1,7 @@
+## 1.3.3
+
+* Fixed issues with gyroscope availability detection on iOS and Android. ([#6](https://github.com/mrcendre/motion/pull/6))
+
 ## 1.3.2
 
 - Updated `motion_platform_interface` to v1.3.2.
