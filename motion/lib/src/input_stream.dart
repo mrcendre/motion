@@ -26,44 +26,53 @@ class InputStream extends StatefulWidget {
 }
 
 class InputStreamState extends State<InputStream> {
-  late Stream<MotionEvent> inputStream;
+  Stream<MotionEvent>? inputStream;
 
   DateTime? lastPointerEventTime;
 
   @override
   void initState() {
     super.initState();
+    initialiseInputStream();
+  }
+
+  void initialiseInputStream() async {
+    await Motion.instance.initialize();
+    Motion.instance.setUpdateInterval(60.fps);
     inputStream = Motion.instance.isGyroscopeAvailable &&
             Motion.instance.gyroscopeStream != null
         ? Motion.instance.gyroscopeStream!
         : _pointerStreamController.stream;
+    setState(() {});
   }
 
   @override
-  Widget build(BuildContext context) => MotionProvider(
-        stream: inputStream,
-        child: Motion.instance.isGyroscopeAvailable
-            ? widget.child
-            : PointerListener(
-                child: widget.child,
-                onPositionChange: (newOffset) {
-                  if (!isListening) return;
+  Widget build(BuildContext context) => inputStream == null
+      ? widget.child
+      : MotionProvider(
+          stream: inputStream,
+          child: Motion.instance.isGyroscopeAvailable
+              ? widget.child
+              : PointerListener(
+                  child: widget.child,
+                  onPositionChange: (newOffset) {
+                    if (!isListening) return;
 
-                  final now = DateTime.now();
-                  if (lastPointerEventTime == null) {
+                    final now = DateTime.now();
+                    if (lastPointerEventTime == null) {
+                      lastPointerEventTime = now;
+                    } else if (now.difference(lastPointerEventTime!) <
+                        Motion.instance.updateInterval.duration) {
+                      /// Drop events more frequent than [_updateInterval]
+                      return;
+                    }
+
                     lastPointerEventTime = now;
-                  } else if (now.difference(lastPointerEventTime!) <
-                      Motion.instance.updateInterval.duration) {
-                    /// Drop events more frequent than [_updateInterval]
-                    return;
-                  }
 
-                  lastPointerEventTime = now;
-
-                  _pointerStreamController.add(MotionEvent(
-                      type: MotionType.pointer,
-                      x: newOffset.dx,
-                      y: newOffset.dy));
-                }),
-      );
+                    _pointerStreamController.add(MotionEvent(
+                        type: MotionType.pointer,
+                        x: newOffset.dx,
+                        y: newOffset.dy));
+                  }),
+        );
 }

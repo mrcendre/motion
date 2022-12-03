@@ -1,5 +1,5 @@
-import 'package:motion/motion.dart';
 import 'package:flutter/material.dart' hide Card;
+import 'package:motion/motion.dart';
 import 'package:motion_example/card.dart';
 
 const cardBorderRadius = BorderRadius.all(Radius.circular(25));
@@ -49,38 +49,50 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
     }
 
     return Scaffold(
-        body: Stack(children: [
-      Center(
-          child: Column(mainAxisSize: MainAxisSize.min, children: [
-        Padding(
-            padding: const EdgeInsets.only(bottom: 50),
-            child: Text(
-              'Motion example',
-              style: Theme.of(context).textTheme.headline4?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: const Color.fromARGB(255, 0, 0, 0)),
-            )),
-        const Card(width: 280, height: 170, borderRadius: cardBorderRadius),
-        Padding(
-            padding: const EdgeInsets.only(top: 30, bottom: 30),
-            child: Text(
-              'without Motion',
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
-        Motion.elevated(
-          elevation: 70,
-          borderRadius: cardBorderRadius,
-          child: const Card(
-              width: 280, height: 170, borderRadius: cardBorderRadius),
+      backgroundColor: Colors.white,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(80.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Padding(
+                  padding: const EdgeInsets.only(bottom: 50),
+                  child: Text(
+                    'Motion example',
+                    style: Theme.of(context).textTheme.headline4?.copyWith(
+                        fontWeight: FontWeight.w800,
+                        color: const Color.fromARGB(255, 0, 0, 0)),
+                  )),
+              const Card(
+                  width: 280, height: 170, borderRadius: cardBorderRadius),
+              Padding(
+                  padding: const EdgeInsets.only(top: 30, bottom: 30),
+                  child: Text(
+                    'without Motion',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  )),
+              SizedBox(
+                width: 280,
+                height: 170,
+                child: Motion.elevated(
+                  elevation: 70,
+                  borderRadius: cardBorderRadius,
+                  child: const Card(
+                      width: 280, height: 170, borderRadius: cardBorderRadius),
+                ),
+              ),
+              Padding(
+                  padding: const EdgeInsets.only(top: 30),
+                  child: Text(
+                    'with Motion',
+                    style: Theme.of(context).textTheme.bodyText1,
+                  )),
+            ],
+          ),
         ),
-        Padding(
-            padding: const EdgeInsets.only(top: 30),
-            child: Text(
-              'with Motion',
-              style: Theme.of(context).textTheme.bodyText1,
-            )),
-      ]))
-    ]));
+      ),
+    );
   }
 
   Future<void> showPermissionRequestDialog(BuildContext context,
