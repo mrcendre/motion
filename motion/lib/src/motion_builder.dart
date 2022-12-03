@@ -82,8 +82,11 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
 
   /// The effective filter quality. It ensures that the platform is not Safari Mobile, whose implementation
   /// of Transform.filterQuality renders artifacts.
-  FilterQuality? get filterQuality =>
-      Motion.instance.isSafariMobile || kIsWeb ? null : widget.filterQuality;
+  FilterQuality? get filterQuality => Motion.instance.isSafariMobile
+      ? null
+      : kIsWeb && widget.filterQuality == FilterQuality.high
+          ? FilterQuality.medium
+          : widget.filterQuality;
 
   /// Computes the new rotation for each axis from the given [event], and updates the .
   Matrix4 computeTransformForEvent(MotionEvent? event) {
