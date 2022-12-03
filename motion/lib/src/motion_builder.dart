@@ -1,7 +1,7 @@
 import 'dart:math';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart' hide Shadow;
-
 import 'package:motion_platform_interface/motion_platform_interface.dart';
 
 import 'model/configurations.dart';
@@ -83,7 +83,7 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
   /// The effective filter quality. It ensures that the platform is not Safari Mobile, whose implementation
   /// of Transform.filterQuality renders artifacts.
   FilterQuality? get filterQuality =>
-      Motion.instance.isSafariMobile ? null : widget.filterQuality;
+      Motion.instance.isSafariMobile || kIsWeb ? null : widget.filterQuality;
 
   /// Computes the new rotation for each axis from the given [event], and updates the .
   Matrix4 computeTransformForEvent(MotionEvent? event) {
