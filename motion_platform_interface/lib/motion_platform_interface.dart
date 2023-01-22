@@ -51,7 +51,7 @@ abstract class MotionPlatform extends PlatformInterface {
   bool get isGyroscopeAvailable => false;
 
   /// Indicates whether a permission is required to access gyroscope data.
-  bool get requiresPermission => false;
+  bool get isPermissionRequired => false;
 
   /// Indicates whether the permission is granted.
   bool get isPermissionGranted => false;

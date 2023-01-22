@@ -28,7 +28,7 @@ class NativeMotion extends MotionPlatform {
   bool get isPermissionGranted => false;
 
   @override
-  bool get requiresPermission => false;
+  bool get isPermissionRequired => false;
 
   FramesPerSecond _updateInterval = defaultUpdateInterval;
 

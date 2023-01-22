@@ -34,10 +34,10 @@ class WebMotion extends MotionPlatform {
   @override
   bool get isGyroscopeAvailable => _isGyroscopeAvailable;
 
-  static bool _requiresPermission = false;
+  static bool _isPermissionRequired = false;
 
   @override
-  bool get requiresPermission => _requiresPermission;
+  bool get isPermissionRequired => _isPermissionRequired;
 
   static bool _isPermissionGranted = false;
 
@@ -200,10 +200,10 @@ class WebMotion extends MotionPlatform {
 
     if (_isDeviceMotionApiAvailable) {
       // If a permission is required to access the DeviceMotionEvents, we are sure there is a gyroscope on the device.
-      _requiresPermission =
+      _isPermissionRequired =
           context.callMethod('requiresDeviceMotionEventPermission');
 
-      if (_requiresPermission) {
+      if (_isPermissionRequired) {
         final isGranted = promiseToFuture(evaluatePermission());
         _isPermissionGranted = await isGranted;
       }
@@ -211,7 +211,7 @@ class WebMotion extends MotionPlatform {
 
     _isGyroscopeAvailable = _isGyroscopeApiAvailable ||
         _isDeviceMotionApiAvailable ||
-        _requiresPermission;
+        _isPermissionRequired;
 
     return;
   }
