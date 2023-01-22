@@ -6,15 +6,20 @@ class MotionController {
   /// The speed at which the widget returns to its initial position (only for Gyroscope input type).
   ///
   /// The higher the value, the faster the widget will rotate back to its initial position.
-  /// From 0 to 1.
-  double damping;
+  /// In certain specific use cases, you may explicitly set the damping to *null*, for the widget
+  /// to reflect the phone's orientation at all times.
+  ///
+  /// Either a value from 0 to 1, or explicitly null. Defaults to 0.2.
+  double? damping;
 
   /// The actual damping factor used by the widget.
   ///
   /// Computed from the [damping] value which lerps from 0 to 1 between [minDampingFactor] and [maxDampingFactor].
-  double get dampingFactor =>
-      1 -
-      (minDampingFactor + (damping * (maxDampingFactor - minDampingFactor)));
+  double get dampingFactor => damping != null
+      ? 1 -
+          (minDampingFactor +
+              (damping! * (maxDampingFactor - minDampingFactor)))
+      : 1;
 
   /// The maximum angle at which the widget will be allowed to turn in every axis, in radians.
   double maxAngle;
@@ -26,7 +31,8 @@ class MotionController {
   double x = 0, y = 0;
 
   /// A controller that holds the [Motion] widget's X and Y angles.
-  MotionController({this.damping = 0.2, this.maxAngle = defaultMaxAngle});
+  MotionController(
+      {this.damping = defaultDampingFactor, this.maxAngle = defaultMaxAngle});
 
   /// A default controller for initializing the widgets with the default [damping] and [maxAngle] values.
   ///
