@@ -25,6 +25,7 @@ const double maxElevation = 100,
     /// Damping constants
     maxDampingFactor = 0.05,
     minDampingFactor = 0.01,
+    defaultDampingFactor = 0.2,
 
     /// Glare-specific constants
     minGlareOpacity = 0.1,
