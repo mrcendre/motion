@@ -38,7 +38,7 @@ class MotionDemoPage extends StatefulWidget {
 class _MotionDemoPageState extends State<MotionDemoPage> {
   @override
   Widget build(BuildContext context) {
-    if (Motion.instance.requiresPermission &&
+    if (Motion.instance.isPermissionRequired &&
         !Motion.instance.isPermissionGranted) {
       showPermissionRequestDialog(
         context,
