@@ -85,12 +85,12 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
   FilterQuality? get filterQuality =>
       Motion.instance.isSafariMobile ? null : widget.filterQuality;
 
-  /// Computes the new rotation for each axis from the given [event], and updates the .
+  /// Computes the new rotation for each axis from the given [event], and updates the controller's value.
   Matrix4 computeTransformForEvent(MotionEvent? event) {
     final matrix = Matrix4.identity()..setEntry(3, 2, 0.0015);
 
     if (event != null) {
-      // In case of relative events...
+      // In case of relative rotation events...
       if (event.type == MotionType.gyroscope) {
         // Apply the event's rotation based on the device orientation.
         controller.x +=
@@ -101,10 +101,11 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
         // Normalize the values.
         controller.normalize();
 
-        // Apply the damping factor.
+        // Apply the damping factor — which may equal 1 and have no effect, if damping is null.
         controller.x *= controller.dampingFactor;
         controller.y *= controller.dampingFactor;
       } else {
+        // In case of absolute rotation events...
         controller.x = event.x * (controller.maxAngle / 2);
         controller.y = event.y * (controller.maxAngle / 2);
       }
@@ -137,6 +138,7 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
               ? MotionType.gyroscope
               : MotionType.pointer),
       builder: (ctx, snapshot) => Stack(clipBehavior: Clip.none, children: [
+            // The widget's drop shadow
             if (widget.shadow != null && widget.shadow!.isVisible)
               Positioned(
                   left: horizontalShadowOffset,
@@ -154,6 +156,8 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
                                     color: widget.shadow!.color
                                         .withOpacity(widget.shadow!.opacity))
                               ])))),
+
+            // The transformation widgets
             Transform(
                 transform: computeTransformForEvent(snapshot.data),
                 alignment: FractionalOffset.center,
