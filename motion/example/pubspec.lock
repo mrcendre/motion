@@ -127,21 +127,21 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "1.3.3"
+    version: "1.4.0"
   motion_platform_interface:
     dependency: transitive
     description:
       name: motion_platform_interface
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.2"
+    version: "1.4.0"
   motion_web:
     dependency: transitive
     description:
       name: motion_web
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.3.2"
+    version: "1.4.0"
   path:
     dependency: transitive
     description:
