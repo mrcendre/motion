@@ -1,16 +1,17 @@
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 
 class Scripts {
   static void load() {
-    html.document.body?.append(html.ScriptElement()
-      ..type = 'application/javascript'
-      ..innerHtml = detectionScript.minified);
+    web.document.body?.append(
+      web.HTMLScriptElement()
+        ..type = 'application/javascript'
+        ..innerHTML = detectionScript.minified,
+    );
   }
 }
 
 extension Minifier on String {
-  String get minified =>
-      this.withoutComments.replaceAll('\n', '').replaceAll('  ', '');
+  String get minified => this.withoutComments.replaceAll('\n', '').replaceAll('  ', '');
 
   String get withoutComments {
     List<String> lines = this.split('\n');
