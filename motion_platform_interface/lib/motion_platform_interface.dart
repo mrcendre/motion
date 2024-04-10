@@ -16,7 +16,6 @@ export 'src/model/motion_event.dart';
 
 export 'src/model/constants.dart';
 export 'src/model/fps.dart';
-export 'src/model/motion_event.dart';
 
 /// The common platform interface for the [Motion] plugin.
 abstract class MotionPlatform extends PlatformInterface {

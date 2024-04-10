@@ -1,7 +1,7 @@
 // ignore_for_file: curly_braces_in_flow_control_structures, unnecessary_null_comparison
 
-/// A custom implementation of Flutter's MouseRegion that uses a translucent hit test behavior,
-/// available in Flutter versions prior to 3.0.0.
+// A custom implementation of Flutter's MouseRegion that uses a translucent hit test behavior,
+// available in Flutter versions prior to 3.0.0.
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
@@ -45,17 +45,16 @@ class TranslucentMouseRegion extends SingleChildRenderObjectWidget {
   /// By default, all callbacks are empty, [cursor] is [MouseCursor.defer], and
   /// [opaque] is true. The [cursor] must not be null.
   const TranslucentMouseRegion({
-    Key? key,
+    super.key,
     this.onEnter,
     this.onExit,
     this.onHover,
     this.cursor = MouseCursor.defer,
     this.opaque = true,
     this.hitTestBehavior = HitTestBehavior.translucent,
-    Widget? child,
+    super.child,
   })  : assert(cursor != null),
-        assert(opaque != null),
-        super(key: key, child: child);
+        assert(opaque != null);
 
   /// Triggered when a mouse pointer has entered this widget.
   ///
@@ -276,18 +275,17 @@ class RenderMouseRegion extends RenderProxyBoxWithHitTestBehavior
     this.onEnter,
     this.onHover,
     this.onExit,
+    HitTestBehavior? hitTestBehavior = HitTestBehavior.opaque,
     MouseCursor cursor = MouseCursor.defer,
     bool validForMouseTracker = true,
     bool opaque = true,
-    RenderBox? child,
-    HitTestBehavior? hitTestBehavior = HitTestBehavior.opaque,
+    super.child,
   })  : assert(opaque != null),
         assert(cursor != null),
         _cursor = cursor,
         _validForMouseTracker = validForMouseTracker,
         _opaque = opaque,
-        super(
-            behavior: hitTestBehavior ?? HitTestBehavior.opaque, child: child);
+        super(behavior: hitTestBehavior ?? HitTestBehavior.opaque);
 
   @override
   bool hitTest(BoxHitTestResult result, {required Offset position}) {

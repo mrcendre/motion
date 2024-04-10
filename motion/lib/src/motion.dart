@@ -54,7 +54,7 @@ class Motion extends StatefulWidget {
   /// You may provide a custom [glare], [shadow] and [translation] configuration to override the default effects.
   /// An optional [borderRadius] can be provided to apply a border radius to the widget.
   const Motion({
-    Key? key,
+    super.key,
     this.controller,
     required this.child,
     this.glare = const GlareConfiguration(),
@@ -62,13 +62,13 @@ class Motion extends StatefulWidget {
     this.translation = const TranslationConfiguration(),
     this.borderRadius,
     this.filterQuality = defaultFilterQuality,
-  }) : super(key: key);
+  });
 
   /// Creates a [Motion] widget with the given [child] and [controller], but only applying the rotation effect by default.
   ///
   /// A shorthand for initializing a [Motion] widget with no other effect than the rotation.
   const Motion.only({
-    Key? key,
+    super.key,
     this.controller,
     required this.child,
     this.glare,
@@ -76,7 +76,7 @@ class Motion extends StatefulWidget {
     this.translation,
     this.borderRadius,
     this.filterQuality = defaultFilterQuality,
-  }) : super(key: key);
+  });
 
   /// Creates a [Motion] widget by setting configurations according to the elevation of the widget.
   ///
@@ -101,7 +101,6 @@ class Motion extends StatefulWidget {
   }) =>
       Motion(
         key: key,
-        child: child,
         controller: controller,
         glare: glare ? GlareConfiguration.fromElevation(elevation) : null,
         shadow: shadow ? ShadowConfiguration.fromElevation(elevation) : null,
@@ -110,6 +109,7 @@ class Motion extends StatefulWidget {
             : null,
         borderRadius: borderRadius,
         filterQuality: filterQuality,
+        child: child,
       );
 
   @override
@@ -121,11 +121,11 @@ class _MotionState extends State<Motion> {
   Widget build(BuildContext context) => InputStream(
           child: MotionStreamBuilder(
         controller: widget.controller,
-        child: widget.child,
         glare: widget.glare,
         shadow: widget.shadow,
         translation: widget.translation,
         borderRadius: widget.borderRadius,
         filterQuality: widget.filterQuality,
+        child: widget.child,
       ));
 }

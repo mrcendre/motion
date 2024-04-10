@@ -19,7 +19,7 @@ final StreamController<MotionEvent> _pointerStreamController =
 class InputStream extends StatefulWidget {
   final Widget child;
 
-  const InputStream({Key? key, required this.child}) : super(key: key);
+  const InputStream({super.key, required this.child});
 
   @override
   State<StatefulWidget> createState() => InputStreamState();

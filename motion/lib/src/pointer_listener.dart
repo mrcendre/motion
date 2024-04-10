@@ -21,8 +21,7 @@ class PointerListener extends StatefulWidget {
   /// Consequently, when the pointer leaves the [child], "fake" pointer events are simulated towards
   /// the widget's center. When it enters, the widget progressively animates to the pointer's position.
   const PointerListener(
-      {Key? key, required this.child, required this.onPositionChange})
-      : super(key: key);
+      {super.key, required this.child, required this.onPositionChange});
 
   @override
   State<PointerListener> createState() => _PointerListenerState();
