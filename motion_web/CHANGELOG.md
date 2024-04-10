@@ -1,3 +1,7 @@
+## 1.4.2
+
+* Migrate to package:web and add support for WASM
+
 ## 1.4.0
 
 * **BREAKING CHANGE:** Renamed `requiresPermission` to `isPermissionRequired` for better naming consistency.

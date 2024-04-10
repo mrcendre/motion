@@ -1,10 +1,10 @@
-import 'dart:html' as html;
+import 'package:web/web.dart' as web;
 
 class Scripts {
   static void load() {
-    html.document.body?.append(html.ScriptElement()
+    web.document.body?.append(web.HTMLScriptElement()
       ..type = 'application/javascript'
-      ..innerHtml = detectionScript.minified);
+      ..innerHTML = detectionScript.minified);
   }
 }
 

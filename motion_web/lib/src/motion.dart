@@ -1,17 +1,17 @@
 import 'dart:async';
 import 'dart:developer' as developer;
-import 'dart:html' as html;
-import 'dart:js';
-import 'dart:js_util';
+import 'dart:js_interop';
+import 'dart:js_interop_unsafe';
+import 'package:web/web.dart' as web;
+import 'web_sensors_interop.dart';
 
-import 'package:js/js.dart';
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:motion_platform_interface/motion_platform_interface.dart';
 
 import 'scripts.dart';
 
 @JS()
-external dynamic get evaluatePermission;
+external bool get evaluatePermission;
 
 /// The Web implementation of [MotionPlatform].
 class WebMotion extends MotionPlatform {
@@ -105,79 +105,50 @@ class WebMotion extends MotionPlatform {
       if (_isGyroscopeApiAvailable) {
         _featureDetected(
           () {
-            final gyroscope = html.Gyroscope({
-              'frequency': _frequency,
-            });
+            final gyroscope = Gyroscope(SensorOptions(frequency: _frequency));
 
-            setProperty(
-              gyroscope,
-              'onreading',
-              allowInterop(
-                (_) {
-                  _gyroscopeStreamController!.add(
-                    MotionEvent(
-                      type: MotionType.gyroscope,
-                      x: gyroscope.x as double,
-                      y: gyroscope.y as double,
-                      z: gyroscope.z as double,
-                    ),
-                  );
-                },
-              ),
-            );
+            gyroscope.onreading = (Event event) {
+              _gyroscopeStreamController?.add(
+                MotionEvent(
+                  type: MotionType.gyroscope,
+                  x: gyroscope.x,
+                  y: gyroscope.y,
+                  z: gyroscope.z,
+                ),
+              );
+            }.toJS;
 
             gyroscope.start();
 
-            gyroscope.onError.forEach(
-              (e) => developer.log(
+            gyroscope.onerror = (Event e) {
+              developer.log(
                   'The gyroscope API is supported but something is wrong!',
-                  error: e),
-            );
+                  error: e);
+            }.toJS;
           },
           apiName: 'Gyroscope()',
           permissionName: 'gyroscope',
           onError: () {
-            html.window.console
-                .warn('Error: Gyroscope() is not supported by the User Agent.');
+            web.console.warn(
+                'Error: Gyroscope() is not supported by the User Agent.'.toJS);
             _gyroscopeStreamController!
                 .add(const MotionEvent.zero(type: MotionType.gyroscope));
           },
         );
       } else if (_isDeviceMotionApiAvailable) {
-        StreamSubscription? onDeviceMotionSubscription;
-
         /// If unavailable, fallback on the [DeviceMotionEvent] API.
         _featureDetected(
             () {
-              onDeviceMotionSubscription = html.window.onDeviceMotion.listen(
-                (event) {
-                  final now = DateTime.now();
-                  if (now.difference(lastDeviceMotionEvent) <
-                      _updateInterval.duration) {
-                    /// Drop events more frequent than [_updateInterval]
-                    return;
-                  }
-
-                  lastDeviceMotionEvent = now;
-
-                  var interval = event.interval ?? 1;
-                  _gyroscopeStreamController!.add(
-                    MotionEvent(
-                      type: MotionType.gyroscope,
-                      x: (event.rotationRate?.alpha as double? ?? 0) * interval,
-                      y: (event.rotationRate?.beta as double? ?? 0) * interval,
-                      z: (event.rotationRate?.gamma as double? ?? 0) * interval,
-                    ),
-                  );
-                },
-              );
+              web.window
+                  .addEventListener('ondevicemotion', onDeviceMotion.toJS);
             },
             apiName: 'DeviceMotionEvent()',
             permissionName: 'DeviceMotionEvent',
             onError: () {
-              html.window.console
-                  .warn('The DeviceMotionEvent API is not available either.');
-              onDeviceMotionSubscription?.cancel();
+              web.console.warn(
+                  'The DeviceMotionEvent API is not available either.'.toJS);
+              web.window
+                  .removeEventListener('ondevicemotion', onDeviceMotion.toJS);
               _gyroscopeStreamController!
                   .add(const MotionEvent.zero(type: MotionType.gyroscope));
             });
@@ -188,24 +159,49 @@ class WebMotion extends MotionPlatform {
     return _gyroscopeStream;
   }
 
+  void onDeviceMotion(JSObject e) {
+    final event = e.dartify() as dynamic;
+    final now = DateTime.now();
+    if (now.difference(lastDeviceMotionEvent) < _updateInterval.duration) {
+      /// Drop events more frequent than [_updateInterval]
+      return;
+    }
+
+    lastDeviceMotionEvent = now;
+
+    var interval = event.interval ?? 1;
+    _gyroscopeStreamController!.add(
+      MotionEvent(
+        type: MotionType.gyroscope,
+        x: (event.rotationRate?.alpha as double? ?? 0) * interval,
+        y: (event.rotationRate?.beta as double? ?? 0) * interval,
+        z: (event.rotationRate?.gamma as double? ?? 0) * interval,
+      ),
+    );
+  }
+
   @override
   Future<void> initialize() async {
     Scripts.load();
 
-    _isSafariMobile = context.callMethod('isSafariMobile');
+    _isSafariMobile =
+        web.window.callMethod('isSafariMobile'.toJS) as bool? ?? false;
 
-    _isGyroscopeApiAvailable = context.callMethod('isGyroscopeApiAvailable');
+    _isGyroscopeApiAvailable =
+        web.window.callMethod('isGyroscopeApiAvailable'.toJS) as bool? ?? false;
     _isDeviceMotionApiAvailable =
-        context.callMethod('isDeviceMotionApiAvailable');
+        web.window.callMethod('isDeviceMotionApiAvailable'.toJS) as bool? ??
+            false;
 
     if (_isDeviceMotionApiAvailable) {
       // If a permission is required to access the DeviceMotionEvents, we are sure there is a gyroscope on the device.
       _isPermissionRequired =
-          context.callMethod('requiresDeviceMotionEventPermission');
+          web.window.callMethod('requiresDeviceMotionEventPermission'.toJS)
+                  as bool? ??
+              false;
 
       if (_isPermissionRequired) {
-        final isGranted = promiseToFuture(evaluatePermission());
-        _isPermissionGranted = await isGranted;
+        _isPermissionGranted = await evaluatePermission as bool? ?? false;
       }
     }
 
@@ -218,8 +214,9 @@ class WebMotion extends MotionPlatform {
 
   @override
   Future<bool> requestPermission() async {
-    _isPermissionGranted =
-        context.callMethod('requestDeviceMotionEventPermission');
+    _isPermissionGranted = web.window
+            .callMethod('requestDeviceMotionEventPermission'.toJS) as bool? ??
+        false;
 
     return _isPermissionGranted;
   }
