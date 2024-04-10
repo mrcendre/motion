@@ -38,8 +38,7 @@ class MotionDemoPage extends StatefulWidget {
 class _MotionDemoPageState extends State<MotionDemoPage> {
   @override
   Widget build(BuildContext context) {
-    if (Motion.instance.isPermissionRequired &&
-        !Motion.instance.isPermissionGranted) {
+    if (Motion.instance.isPermissionRequired && !Motion.instance.isPermissionGranted) {
       showPermissionRequestDialog(
         context,
         onDone: () {
@@ -56,9 +55,10 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
             padding: const EdgeInsets.only(bottom: 50),
             child: Text(
               'Motion example',
-              style: Theme.of(context).textTheme.headline4?.copyWith(
-                  fontWeight: FontWeight.w800,
-                  color: const Color.fromARGB(255, 0, 0, 0)),
+              style: Theme.of(context)
+                  .textTheme
+                  .headline4
+                  ?.copyWith(fontWeight: FontWeight.w800, color: const Color.fromARGB(255, 0, 0, 0)),
             )),
         const Card(width: 280, height: 170, borderRadius: cardBorderRadius),
         Padding(
@@ -70,8 +70,7 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
         Motion.elevated(
           elevation: 70,
           borderRadius: cardBorderRadius,
-          child: const Card(
-              width: 280, height: 170, borderRadius: cardBorderRadius),
+          child: const Card(width: 280, height: 170, borderRadius: cardBorderRadius),
         ),
         Padding(
             padding: const EdgeInsets.only(top: 30),
@@ -83,8 +82,7 @@ class _MotionDemoPageState extends State<MotionDemoPage> {
     ]));
   }
 
-  Future<void> showPermissionRequestDialog(BuildContext context,
-      {required Function() onDone}) async {
+  Future<void> showPermissionRequestDialog(BuildContext context, {required Function() onDone}) async {
     return showDialog<void>(
         context: context,
         builder: (BuildContext context) => AlertDialog(
