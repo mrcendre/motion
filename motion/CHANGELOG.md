@@ -1,3 +1,7 @@
+## 1.4.1
+
+* Fixed "Message from native to Flutter on a non-platform thread" bug. ([#14](
+
 ## 1.4.0
 
 * **BREAKING CHANGE:** Renamed `requiresPermission` to `isPermissionRequired` for better naming consistency.
