@@ -8,8 +8,7 @@ class MotionProvider extends InheritedWidget {
 
   bool get hasMotion => stream != null;
 
-  const MotionProvider({Key? key, required Widget child, required this.stream})
-      : super(key: key, child: child);
+  const MotionProvider({super.key, required super.child, required this.stream});
 
   static MotionProvider? of(BuildContext context) =>
       context.dependOnInheritedWidgetOfExactType<MotionProvider>();

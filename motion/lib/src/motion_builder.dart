@@ -35,7 +35,7 @@ class MotionStreamBuilder extends StatefulWidget {
 
   /// Creates a [Motion] widget with the given [child] and [controller], applying all of the effects.
   const MotionStreamBuilder({
-    Key? key,
+    super.key,
     this.controller,
     required this.child,
     required this.glare,
@@ -43,7 +43,7 @@ class MotionStreamBuilder extends StatefulWidget {
     required this.translation,
     this.borderRadius,
     this.filterQuality = defaultFilterQuality,
-  }) : super(key: key);
+  });
 
   @override
   State<MotionStreamBuilder> createState() => _MotionStreamBuilderState();
