@@ -1,3 +1,15 @@
+## 2.0.0
+
+> **Note**: This release has breaking changes.
+>
+> **Motion** now requires the following:
+> - Flutter >=3.19.0
+> - Dart >=3.3.0
+> - Java 17 and Gradle 8.1 for Android
+
+* Aligned with the latest version of the `motion` package.
+* Removed unused import
+
 ## 1.4.0
 
 * **BREAKING CHANGE:** Renamed `requiresPermission` to `isPermissionRequired` for better naming consistency.

@@ -1,10 +1,18 @@
-## 1.4.2
+## 2.0.0
 
-* Migrate to package:web and add support for WASM
+> **Note**: This release has breaking changes.
+>
+> **Motion** now requires the following:
+> - Flutter >=3.19.0
+> - Dart >=3.3.0
+> - Java 17 and Gradle 8.1 for Android
+
+* Added WASM support for the web by migrating to package:web ([#21](https://github.com/mrcendre/motion/pull/21) by [@raldhafiri](https://github.com/raldhafiri))
+* **BREAKING CHANGE**: Added AGP 8 support ([#16](https://github.com/mrcendre/motion/pull/16) by [@pastelcode](https://github.com/pastelcode))
 
 ## 1.4.1
 
-* Fixed "Message from native to Flutter on a non-platform thread" bug. ([#14](
+* Fixed "Message from native to Flutter on a non-platform thread" bug. ([#19](https://github.com/mrcendre/motion/issues/19))
 
 ## 1.4.0
 
@@ -14,7 +22,7 @@
 
 ## 1.3.3
 
-* Fixed issues with gyroscope availability detection on iOS and Android. ([#6](https://github.com/mrcendre/motion/pull/6))
+* Fixed issues with gyroscope availability detection on iOS and Android. ([#6](https://github.com/mrcendre/motion/pull/6) by [@ekasetiawans](https://github.com/ekasetiawans))
 
 ## 1.3.2
 
@@ -39,13 +47,13 @@
 ## 1.2.1
 
 * Added interstitial events on Android when the gyroscope events' rate is too low.
-* Updated sample app to use new constructors. ([#4](https://github.com/mrcendre/motion/pull/4))
-* Removed `hitTestBehavior` on MouseRegion to remain compatible with Flutter versions prior to 3.0.0. ([#4](https://github.com/mrcendre/motion/pull/4))
+* Updated sample app to use new constructors. ([#4](https://github.com/mrcendre/motion/pull/4) by [@sebastianbuechler](https://github.com/sebastianbuechler))
+* Removed `hitTestBehavior` on MouseRegion to remain compatible with Flutter versions prior to 3.0.0. ([#4](https://github.com/mrcendre/motion/pull/4) by [@sebastianbuechler](https://github.com/sebastianbuechler))
 
 ## 1.2.0
 
 * Added `GlareConfiguration`, `ShadowConfiguration` and `TranslationConfiguration` to allow for more customization.
-* Moved the `elevation` parameter to a `Motion.elevated`]` constructor that computes the appropriate configurations.
+* Moved the `elevation` parameter to a `Motion.elevated` constructor that computes the appropriate configurations.
 * Improved performances by optimizing the widget tree and input events handling.
 * Fixed some cases of jumpy rotation when the pointer is leaving or entering.
 

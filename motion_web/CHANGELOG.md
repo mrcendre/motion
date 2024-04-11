@@ -1,6 +1,12 @@
-## 1.4.2
+## 2.0.0
 
-* Migrate to package:web and add support for WASM
+> **Note**: This release has breaking changes.
+>
+> **motion_web** now requires the following:
+> - Flutter >=3.19.0
+> - Dart >=3.3.0
+
+* Added WASM support for the web by migrating to package:web ([#21](https://github.com/mrcendre/motion/pull/21) by [@raldhafiri](https://github.com/raldhafiri))
 
 ## 1.4.0
 
