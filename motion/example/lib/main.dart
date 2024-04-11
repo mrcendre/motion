@@ -18,7 +18,7 @@ void main() async {
 }
 
 class MotionDemoApp extends StatelessWidget {
-  const MotionDemoApp({Key? key}) : super(key: key);
+  const MotionDemoApp({super.key});
 
   @override
   Widget build(BuildContext context) => const MaterialApp(
@@ -29,7 +29,7 @@ class MotionDemoApp extends StatelessWidget {
 }
 
 class MotionDemoPage extends StatefulWidget {
-  const MotionDemoPage({Key? key}) : super(key: key);
+  const MotionDemoPage({super.key});
 
   @override
   State<MotionDemoPage> createState() => _MotionDemoPageState();
