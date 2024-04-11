@@ -1,3 +1,7 @@
+## 1.4.2
+
+* Migrate to package:web and add support for WASM
+
 ## 1.4.1
 
 * Fixed "Message from native to Flutter on a non-platform thread" bug. ([#14](
