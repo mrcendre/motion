@@ -5,11 +5,10 @@ class Card extends StatelessWidget {
   final BorderRadius borderRadius;
 
   const Card(
-      {Key? key,
+      {super.key,
       required this.width,
       required this.height,
-      required this.borderRadius})
-      : super(key: key);
+      required this.borderRadius});
 
   @override
   Widget build(BuildContext context) => Container(
