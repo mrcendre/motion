@@ -1,6 +1,6 @@
 name: motion_platform_interface
 description: The platform interface for the Motion plugin.
-version: 1.4.0
+version: 2.0.0
 homepage: https://cendre.me
 repository: https://github.com/mrcendre/motion
 issue_tracker: https://github.com/mrcendre/motion/issues?q=is%3Aissue+is%3Aopen
