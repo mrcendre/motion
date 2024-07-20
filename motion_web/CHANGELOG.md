@@ -1,3 +1,6 @@
+## 2.0.1
+- Add support for web package version 1.0.0
+
 ## 2.0.0
 
 > **Note**: This release has breaking changes.
