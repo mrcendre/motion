@@ -2,9 +2,11 @@ import 'package:web/web.dart' as web;
 
 class Scripts {
   static void load() {
+    dynamic scriptText = detectionScript.minified;
+      
     web.document.body?.append(web.HTMLScriptElement()
       ..type = 'application/javascript'
-      ..innerHTML = detectionScript.minified);
+      ..innerHTML = scriptText);
   }
 }
 
