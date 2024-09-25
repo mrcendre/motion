@@ -1,6 +1,6 @@
 name: motion_platform_interface
 description: The platform interface for the Motion plugin.
-version: 2.0.0
+version: 2.0.1
 homepage: https://cendre.me
 repository: https://github.com/mrcendre/motion
 issue_tracker: https://github.com/mrcendre/motion/issues?q=is%3Aissue+is%3Aopen
@@ -8,8 +8,8 @@ issue_tracker: https://github.com/mrcendre/motion/issues?q=is%3Aissue+is%3Aopen
 dependencies:
   flutter:
     sdk: flutter
-  meta: ^1.7.0
-  plugin_platform_interface: ^2.0.0
+  meta: ^1.15.0
+  plugin_platform_interface: ^2.1.8
 
 dev_dependencies:
   flutter_test:
