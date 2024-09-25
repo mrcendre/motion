@@ -23,8 +23,8 @@ dependencies:
   flutter_web_plugins:
     sdk: flutter
 
-  motion_platform_interface: ^2.0.0
-  web:
+  motion_platform_interface: ^2.0.1
+  web: ^1.1.0
 
 dev_dependencies:
   flutter_test:

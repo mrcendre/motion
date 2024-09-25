@@ -1,5 +1,6 @@
 ## 2.0.1
-- Add support for web package version 1.0.0
+
+- Add support for `web` package version 1.1.0
 
 ## 2.0.0
 

@@ -1,3 +1,8 @@
+## 2.0.1
+
+* Updated `plugin_platform_interface` to 2.1.8
+* Updated `meta` to 1.15.0
+
 ## 2.0.0
 
 > **Note**: This release has breaking changes.
