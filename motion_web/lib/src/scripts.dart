@@ -1,12 +1,13 @@
+import 'dart:js_interop';
 import 'package:web/web.dart' as web;
 
 class Scripts {
   static void load() {
-    dynamic scriptText = detectionScript.minified;
-      
+    final scriptText = detectionScript.minified;
+
     web.document.body?.append(web.HTMLScriptElement()
       ..type = 'application/javascript'
-      ..innerHTML = scriptText);
+      ..innerHTML = scriptText.toJS);
   }
 }
 
