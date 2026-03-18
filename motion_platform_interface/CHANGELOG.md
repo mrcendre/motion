@@ -1,3 +1,7 @@
+## 2.0.2
+
+> Update depedencies to the latest versions.
+
 ## 2.0.1
 
 * Updated `plugin_platform_interface` to 2.1.8

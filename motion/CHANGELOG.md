@@ -1,3 +1,7 @@
+## 2.0.2
+
+> Added support for WASM builds ([#25](https://github.com/mrcendre/motion/pull/25))
+
 ## 2.0.1
 
 > Updated `web` dependency to v1.0.0 ([#22](https://github.com/mrcendre/motion/pull/22) by [@raldhafiri](https://github.com/raldhafiri))
