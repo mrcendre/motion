@@ -185,20 +185,19 @@ class WebMotion extends MotionPlatform {
     Scripts.load();
 
     _isSafariMobile =
-        web.window.callMethod('isSafariMobile'.toJS) as bool? ?? false;
+        web.window.callMethod<JSBoolean>('isSafariMobile'.toJS).toDart;
 
     _isGyroscopeApiAvailable =
-        web.window.callMethod('isGyroscopeApiAvailable'.toJS) as bool? ?? false;
-    _isDeviceMotionApiAvailable =
-        web.window.callMethod('isDeviceMotionApiAvailable'.toJS) as bool? ??
-            false;
+        web.window.callMethod<JSBoolean>('isGyroscopeApiAvailable'.toJS).toDart;
+    _isDeviceMotionApiAvailable = web.window
+        .callMethod<JSBoolean>('isDeviceMotionApiAvailable'.toJS)
+        .toDart;
 
     if (_isDeviceMotionApiAvailable) {
       // If a permission is required to access the DeviceMotionEvents, we are sure there is a gyroscope on the device.
-      _isPermissionRequired =
-          web.window.callMethod('requiresDeviceMotionEventPermission'.toJS)
-                  as bool? ??
-              false;
+      _isPermissionRequired = web.window
+          .callMethod<JSBoolean>('requiresDeviceMotionEventPermission'.toJS)
+          .toDart;
 
       if (_isPermissionRequired) {
         _isPermissionGranted = await evaluatePermission as bool? ?? false;
@@ -215,8 +214,8 @@ class WebMotion extends MotionPlatform {
   @override
   Future<bool> requestPermission() async {
     _isPermissionGranted = web.window
-            .callMethod('requestDeviceMotionEventPermission'.toJS) as bool? ??
-        false;
+        .callMethod<JSBoolean>('requestDeviceMotionEventPermission'.toJS)
+        .toDart;
 
     return _isPermissionGranted;
   }
