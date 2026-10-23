@@ -1,3 +1,7 @@
+## 2.0.3
+
+> Added support for Swift Package Manager on iOS ([#27](https://github.com/mrcendre/motion/pull/27))
+
 ## 2.0.2
 
 > Added support for WASM builds ([#25](https://github.com/mrcendre/motion/pull/25))
