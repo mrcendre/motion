@@ -44,7 +44,7 @@ class ShadowConfiguration {
   final double topOffset;
 
   /// A [bool] indicating whether the shadow's configuration values mean that the shadow is visible or not.
-  bool get isVisible => blurRadius > 0 && opacity > 0 && color.opacity > 0;
+  bool get isVisible => blurRadius > 0 && opacity > 0 && color.a > 0;
 
   /// A set of values that define the shadow effect's behavior.
   const ShadowConfiguration(

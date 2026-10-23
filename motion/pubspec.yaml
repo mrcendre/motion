@@ -26,6 +26,7 @@ dependencies:
 
   motion_web: ^2.0.2
   motion_platform_interface: ^2.0.2
+  vector_math: ^2.4.3
   
 dev_dependencies:
   flutter_test:

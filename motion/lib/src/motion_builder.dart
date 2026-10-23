@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:flutter/widgets.dart' hide Shadow;
 
 import 'package:motion_platform_interface/motion_platform_interface.dart';
+import 'package:vector_math/vector_math_64.dart';
 
 import 'model/configurations.dart';
 import 'model/controller.dart';
@@ -114,9 +115,11 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
       matrix.rotateX(controller.x);
       matrix.rotateY(controller.y);
 
-      matrix.translate(
-        controller.y * -((widget.translation?.maxOffset.dy ?? 0) * 2.0),
-        controller.x * (widget.translation?.maxOffset.dx ?? 0),
+      matrix.translateByVector2(
+        Vector2(
+          controller.y * -((widget.translation?.maxOffset.dy ?? 0) * 2.0),
+          controller.x * (widget.translation?.maxOffset.dx ?? 0),
+        ),
       );
     }
 
@@ -153,8 +156,9 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
                               boxShadow: [
                                 BoxShadow(
                                     blurRadius: widget.shadow!.blurRadius,
-                                    color: widget.shadow!.color
-                                        .withOpacity(widget.shadow!.opacity))
+                                    color: widget.shadow!.color.withValues(
+                                      alpha: widget.shadow!.opacity,
+                                    ))
                               ])))),
 
             // The transformation widgets
@@ -176,14 +180,16 @@ class _MotionStreamBuilderState extends State<MotionStreamBuilder> {
                                           colors: [
                                             (widget.glare?.color ??
                                                     defaultGlareColor)
-                                                .withOpacity(
-                                                    widget.glare?.minOpacity ??
-                                                        minGlareOpacity),
+                                                .withValues(
+                                              alpha: widget.glare?.minOpacity ??
+                                                  minGlareOpacity,
+                                            ),
                                             (widget.glare?.color ??
                                                     defaultGlareColor)
-                                                .withOpacity(
-                                                    widget.glare?.maxOpacity ??
-                                                        maxGlareOpacity)
+                                                .withValues(
+                                              alpha: widget.glare?.maxOpacity ??
+                                                  maxGlareOpacity,
+                                            )
                                           ],
                                           transform:
                                               GradientRotation(glareRotation)),
