@@ -13,10 +13,9 @@ Pod::Spec.new do |s|
   s.author           = { 'mrcendre' => 'guillaume@cendre.me' }
   s.source           = { :http => 'https://github.com/mrcendre/motion' }
   s.documentation_url = 'https://pub.dev/packages/motion'
-  s.source_files = 'Classes/**/*'
-  s.public_header_files = 'Classes/**/*.h'
+  s.source_files = 'motion/Sources/motion/**/*'
   s.dependency 'Flutter'
 
-  s.platform = :ios, '8.0'
+  s.platform = :ios, '13.0'
   s.pod_target_xcconfig = { 'DEFINES_MODULE' => 'YES', 'VALID_ARCHS[sdk=iphonesimulator*]' => 'x86_64' }
 end
