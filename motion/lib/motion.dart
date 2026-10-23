@@ -1,5 +1,3 @@
-library motion;
-
 export 'src/motion.dart' show Motion;
 export 'src/model/controller.dart' show MotionController;
 export 'src/model/configurations.dart'
