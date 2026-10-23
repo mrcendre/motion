@@ -47,12 +47,13 @@ class ShadowConfiguration {
   bool get isVisible => blurRadius > 0 && opacity > 0 && color.a > 0;
 
   /// A set of values that define the shadow effect's behavior.
-  const ShadowConfiguration(
-      {this.blurRadius = minBlurRadius,
-      this.opacity = minShadowOpacity,
-      this.color = defaultShadowColor,
-      this.maxOffset = const Offset(maxShadowOffset, maxShadowOffset),
-      this.topOffset = minShadowTopOffset});
+  const ShadowConfiguration({
+    this.blurRadius = minBlurRadius,
+    this.opacity = minShadowOpacity,
+    this.color = defaultShadowColor,
+    this.maxOffset = const Offset(maxShadowOffset, maxShadowOffset),
+    this.topOffset = minShadowTopOffset,
+  });
 
   /// A constructor that creates a [ShadowConfiguration] from an [elevation].
   factory ShadowConfiguration.fromElevation(int elevation) =>
@@ -73,6 +74,7 @@ class TranslationConfiguration {
   /// A constructor that creates a [TranslationConfiguration] from an [elevation].
   factory TranslationConfiguration.fromElevation(int elevation) =>
       TranslationConfiguration(
-          maxOffset: _SingleValueOffset.fromDimension(
-              elevation / maxElevation * maxDistance));
+        maxOffset: _SingleValueOffset.fromDimension(
+            elevation / maxElevation * maxDistance),
+      );
 }
