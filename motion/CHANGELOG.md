@@ -1,3 +1,10 @@
+## 2.0.4
+
+- **Motion** is now tested against the following configuration on Android:
+	- Gradle 9.5.0
+	- AGP 9.3.1
+	- Built-in Kotlin
+
 ## 2.0.3
 
 * Added support for Swift Package Manager on iOS ([#27](https://github.com/mrcendre/motion/pull/27))
